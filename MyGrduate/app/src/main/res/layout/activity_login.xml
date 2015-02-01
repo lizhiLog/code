@@ -1,140 +1,148 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".LoginActivity">
-
-   <ImageView
-       android:id="@+id/loginImage"
-       android:layout_centerHorizontal="true"
-       android:background="@drawable/login"
-       android:layout_margin="@dimen/loginNormalMargin"
-       android:layout_width="200dp"
-       android:layout_height="150dp"/>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
 
     <RelativeLayout
-        android:id="@+id/userNameLayout"
-        android:layout_below="@id/loginImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/loginNormalMargin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/loginEditTextPadding"
-        android:background="@drawable/login_edit_back">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-        <TextView
-            android:id="@+id/userText"
-            android:layout_alignParentLeft="true"
+        <ImageView
+            android:id="@+id/loginImage"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/login"
+            android:layout_margin="@dimen/LRNormalMargin"
+            android:layout_width="200dp"
+            android:layout_height="150dp"/>
+
+        <RelativeLayout
+            android:id="@+id/userNameLayout"
+            android:layout_below="@id/loginImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="用户名" />
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
 
-        <EditText
-            android:id="@+id/userEdit"
-            android:layout_width="@dimen/loginEditWidth"
+            <TextView
+                android:id="@+id/userText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="用户名"/>
+
+            <EditText
+                android:id="@+id/userEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/userText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userPasswordLayout"
+            android:layout_below="@id/userNameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/userText"
-            android:background="@null"
-            android:textAlignment="center" />
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/passwordText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="密    码"/>
+
+            <EditText
+                android:id="@+id/passwordEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/passwordText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userCheckLayout"
+            android:layout_below="@id/userPasswordLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_alignLeft="@id/userNameLayout"
+            android:layout_alignRight="@id/userNameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/pass_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="记住密码"/>
+
+            <Spinner
+                android:id="@+id/user_spinner"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:entries="@array/userType"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_below="@id/userCheckLayout"
+            android:layout_alignLeft="@id/userNameLayout"
+            android:layout_alignRight="@id/userNameLayout"
+            android:padding="@dimen/LREditTextPadding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_btn_back"
+            android:text="登录"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/userRegisterLayout"
+            android:layout_below="@id/btnLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/logonTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/loginTipTextSize"
+                android:text="您还没有账号?"/>
+
+            <TextView
+                android:id="@+id/registerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/loginTipTextSize"
+                android:text="注册"
+                android:textColor="#008B8B"/>
+        </LinearLayout>
+
+
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/userPasswordLayout"
-        android:layout_below="@id/userNameLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/loginNormalMargin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/loginEditTextPadding"
-        android:background="@drawable/login_edit_back">
-
-        <TextView
-            android:id="@+id/passwordText"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="密    码" />
-
-        <EditText
-            android:id="@+id/passwordEdit"
-            android:layout_width="@dimen/loginEditWidth"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/passwordText"
-            android:background="@null"
-            android:textAlignment="center" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/userCheckLayout"
-        android:layout_below="@id/userPasswordLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/loginNormalMargin"
-        android:layout_alignLeft="@id/userNameLayout"
-        android:layout_alignRight="@id/userNameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:id="@+id/pass_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="记住密码" />
-
-        <Spinner
-            android:id="@+id/user_spinner"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:entries="@array/userType"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textAlignment="center" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_marginTop="@dimen/loginNormalMargin"
-        android:layout_below="@id/userCheckLayout"
-        android:layout_alignLeft="@id/userNameLayout"
-        android:layout_alignRight="@id/userNameLayout"
-        android:padding="@dimen/loginBtnPadding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/login_btn_back"
-        android:text="登录" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/userRegisterLayout"
-        android:layout_below="@id/btnLogin"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/loginNormalMargin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/logonTip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/loginTipTextSize"
-            android:text="您还没有账号?" />
-
-        <TextView
-            android:id="@+id/registerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:textSize="@dimen/loginTipTextSize"
-            android:text="注册"
-            android:textColor="#008B8B" />
-    </LinearLayout>
-
-
-</RelativeLayout>
+</ScrollView>

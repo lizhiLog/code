@@ -8,8 +8,35 @@
         android:label="@string/app_name"
         android:theme="@style/CustomTheme" >
         <activity
-            android:name="com.meizu.lizhi.mygraduation.LoginActivity"
-            android:label="@string/app_name" >
+            android:name=".login.LoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".register.StudentRegisterActivity"
+            android:label="@string/title_activity_student_register" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".register.TeacherRegisterActivity"
+            android:label="@string/title_activity_teacher_register" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.student.StudentMainActivity"
+            android:label="@string/title_activity_student_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,0 +1,234 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.meizu.lizhi.mygraduation.register.TeacherRegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:id="@+id/userNoLayout"
+            android:layout_below="@id/loginImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+
+            <TextView
+                android:id="@+id/userNoText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="编    号"/>
+
+            <EditText
+                android:id="@+id/userNoEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/userNoText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userNameLayout"
+            android:layout_below="@id/userNoLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+
+            <TextView
+                android:id="@+id/userText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="用户名"/>
+
+            <EditText
+                android:id="@+id/userEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/userText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userEmailLayout"
+            android:layout_below="@id/userNameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="邮    箱"/>
+
+            <EditText
+                android:id="@+id/emailEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/emailText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userPasswordLayout"
+            android:layout_below="@id/userEmailLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/passwordText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="密    码"/>
+
+            <EditText
+                android:id="@+id/passwordEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/passwordText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userPasswordSecondLayout"
+            android:layout_below="@id/userPasswordLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/passwordSecondText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="密    码"/>
+
+            <EditText
+                android:id="@+id/passwordSecondEdit"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/passwordSecondText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userSchoolLayout"
+            android:layout_below="@id/userPasswordSecondLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/schoolText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="学    院"/>
+
+            <Spinner
+                android:id="@+id/schoolSpinner"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:entries="@array/school"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/schoolText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userAcademyLayout"
+            android:layout_below="@id/userSchoolLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/LREditTextPadding"
+            android:background="@drawable/login_edit_back">
+
+            <TextView
+                android:id="@+id/academyText"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="学    院"/>
+
+            <Spinner
+                android:id="@+id/academySpinner"
+                android:layout_width="@dimen/LREditWidth"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:entries="@array/academy"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/academyText"
+                android:background="@null"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_marginTop="@dimen/LRNormalMargin"
+            android:layout_below="@id/userAcademyLayout"
+            android:layout_alignLeft="@id/userNameLayout"
+            android:layout_alignRight="@id/userNameLayout"
+            android:padding="@dimen/LREditTextPadding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_btn_back"
+            android:text="注册"/>
+
+
+    </RelativeLayout>
+</ScrollView>
