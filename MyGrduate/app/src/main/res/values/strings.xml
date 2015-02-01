@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">资源天堂</string>
+
+    <string-array name="userType">
+        <item>学生</item>
+        <item>老师</item>
+    </string-array>
+</resources>
