@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -35,9 +36,7 @@ public class StudentMainActivity extends FragmentActivity {
 
     void initView() {
         mActionBar = getActionBar();
-        mActionBar.setDisplayOptions(0);
         SmartBarUtils.setActionBarTabsShowAtBottom(mActionBar, true);
-        SmartBarUtils.setActionBarViewCollapsable(mActionBar, true);
     }
 
     @Override
@@ -114,6 +113,7 @@ public class StudentMainActivity extends FragmentActivity {
         switch (itemId) {
             case R.id.menuSubject:
                 if (mMenuItemSubject == null) {
+                    Log.e("","new Subject");
                     mFragmentSubject = new SubjectFragment();
                 }
                 fragment = mFragmentSubject;

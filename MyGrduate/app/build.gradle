@@ -3,19 +3,20 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 20
     buildToolsVersion '19.1.0'
-
     defaultConfig {
-        applicationId "com.meizu.lizhi.mygrduate"
-        minSdkVersion 15
+        applicationId 'com.meizu.lizhi.mygrduate'
+        minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 

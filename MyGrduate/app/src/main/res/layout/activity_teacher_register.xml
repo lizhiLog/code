@@ -10,9 +10,17 @@
         android:layout_height="match_parent"
         >
 
+        <ImageView
+            android:id="@+id/imagePhoto"
+            android:src="@drawable/ic_launcher"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <RelativeLayout
             android:id="@+id/userNoLayout"
-            android:layout_below="@id/loginImage"
+            android:layout_below="@id/imagePhoto"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/LRNormalMargin"
             android:layout_width="wrap_content"
@@ -30,7 +38,7 @@
                 android:text="编    号"/>
 
             <EditText
-                android:id="@+id/userNoEdit"
+                android:id="@+id/userNo"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -60,7 +68,7 @@
                 android:text="用户名"/>
 
             <EditText
-                android:id="@+id/userEdit"
+                android:id="@+id/userName"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -89,7 +97,7 @@
                 android:text="邮    箱"/>
 
             <EditText
-                android:id="@+id/emailEdit"
+                android:id="@+id/email"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -118,7 +126,7 @@
                 android:text="密    码"/>
 
             <EditText
-                android:id="@+id/passwordEdit"
+                android:id="@+id/password"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -147,7 +155,7 @@
                 android:text="密    码"/>
 
             <EditText
-                android:id="@+id/passwordSecondEdit"
+                android:id="@+id/passwordSubmit"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -173,10 +181,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="学    院"/>
+                android:text="学    校"/>
 
             <Spinner
-                android:id="@+id/schoolSpinner"
+                android:id="@+id/school"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -206,7 +214,7 @@
                 android:text="学    院"/>
 
             <Spinner
-                android:id="@+id/academySpinner"
+                android:id="@+id/academy"
                 android:layout_width="@dimen/LREditWidth"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -218,7 +226,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/register"
             android:layout_marginTop="@dimen/LRNormalMargin"
             android:layout_below="@id/userAcademyLayout"
             android:layout_alignLeft="@id/userNameLayout"
