@@ -9,8 +9,14 @@ package com.meizu.lizhi.mygraduation.data;/**
  * FIXME
  */
 public class ResourceData {
+    //资源Id
     public long id;
+    //资源类型
+    public int type;
+    //资源图片Url
     public String imageUrl;
+    //资源标题
     public String title;
+    //资源描述
     public String describe;
 }

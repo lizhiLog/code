@@ -25,11 +25,24 @@
         <activity
             android:name=".main.student.StudentMainActivity"
             android:label="@string/title_activity_student_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".main.student.subject.SubjectActivity"
+            android:name=".main.student.subject.SubjectResourceActivity"
             android:label="@string/title_activity_subject" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.student.subject.SubjectDetailActivity"
+            android:label="@string/title_activity_subject_detail" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
