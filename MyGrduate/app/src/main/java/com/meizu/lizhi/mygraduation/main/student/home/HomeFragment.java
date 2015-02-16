@@ -34,6 +34,10 @@ public class HomeFragment extends Fragment {
 
     MyListAdapter myListAdapter;
 
+   private View mCustomView;
+
+    private int mActionBarOptions;
+
     void downData() {
         mList = new ArrayList<PostData>();
         for (int i = 0; i < 10; i++) {
@@ -54,12 +58,29 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mActionBar = getActivity().getActionBar();
-        mActionBar.setTitle("社区");
+        mCustomView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.home_custom_title_view, null);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(false);
         downData();
         mListView = (ListView) view.findViewById(R.id.homeList);
         myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
         mListView.setAdapter(myListAdapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActionBarOptions = mActionBar.getDisplayOptions();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mActionBar.setDisplayOptions(mActionBarOptions, ActionBar.DISPLAY_SHOW_CUSTOM | mActionBarOptions);
+
     }
 
     class MyListAdapter extends BaseAdapter {

@@ -33,13 +33,13 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
     ImageView mImageViewScrollTwo;
     ImageView mImageViewScrollThree;
     ImageView mImageViewScrollFour;
-    ImageView mImageViewScrollFive;
+
 
     TextView mTextViewOne;
     TextView mTextViewTwo;
     TextView mTextViewThere;
     TextView mTextViewFour;
-    TextView mTextViewFive;
+
 
     int currentIndex;
 
@@ -58,13 +58,11 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
         mImageViewScrollTwo = (ImageView) mCustomView.findViewById(R.id.scroll_2);
         mImageViewScrollThree = (ImageView) mCustomView.findViewById(R.id.scroll_3);
         mImageViewScrollFour = (ImageView) mCustomView.findViewById(R.id.scroll_4);
-        mImageViewScrollFive = (ImageView) mCustomView.findViewById(R.id.scroll_5);
 
         mTextViewOne= (TextView) mCustomView.findViewById(R.id.tab_text_1);
         mTextViewTwo= (TextView) mCustomView.findViewById(R.id.tab_text_2);
         mTextViewThere= (TextView) mCustomView.findViewById(R.id.tab_text_3);
         mTextViewFour= (TextView) mCustomView.findViewById(R.id.tab_text_4);
-        mTextViewFive= (TextView) mCustomView.findViewById(R.id.tab_text_5);
 
         mActionBar.setCustomView(mCustomView);
 
@@ -76,24 +74,21 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
         mTextViewTwo.setOnClickListener(this);
         mTextViewThere.setOnClickListener(this);
         mTextViewFour.setOnClickListener(this);
-        mTextViewFive.setOnClickListener(this);
 
     }
 
     private void setCurrentScroll(int selection) {
         currentIndex=selection;
         if (mImageViewScrollOne != null && mImageViewScrollTwo != null
-                && mImageViewScrollThree != null && mImageViewScrollFour != null&& mImageViewScrollFive !=null) {
+                && mImageViewScrollThree != null && mImageViewScrollFour != null) {
             mImageViewScrollOne.setVisibility(selection == 0 ? View.VISIBLE : View.INVISIBLE);
             mImageViewScrollTwo.setVisibility(selection == 1 ? View.VISIBLE : View.INVISIBLE);
             mImageViewScrollThree.setVisibility(selection == 2 ? View.VISIBLE : View.INVISIBLE);
             mImageViewScrollFour.setVisibility(selection == 3 ? View.VISIBLE : View.INVISIBLE);
-            mImageViewScrollFive.setVisibility(selection == 4 ? View.VISIBLE : View.INVISIBLE);
             mTextViewOne.setTextColor(selection==0? Color.rgb(7, 151, 237):Color.GRAY);
             mTextViewTwo.setTextColor(selection==1?Color.rgb(7,151,237):Color.GRAY);
             mTextViewThere.setTextColor(selection==2?Color.rgb(7,151,237):Color.GRAY);
             mTextViewFour.setTextColor(selection==3?Color.rgb(7,151,237):Color.GRAY);
-            mTextViewFive.setTextColor(selection==4?Color.rgb(7,151,237):Color.GRAY);
 
 
         }
@@ -152,9 +147,6 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3, false);
                 break;
-            case R.id.tab_text_5:
-                mViewPager.setCurrentItem(4, false);
-                break;
         }
     }
 
@@ -166,7 +158,6 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
         DocumentFragment mDocumentFragment;
         CourseWareFragment mCourseWareFragment;
         ExcelFragment mExcelFragment;
-        CommentFragment mCommentFragment;
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -174,7 +165,6 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
             mDocumentFragment=new DocumentFragment();
             mCourseWareFragment=new CourseWareFragment();
             mExcelFragment=new ExcelFragment();
-            mCommentFragment=new CommentFragment();
         }
 
 
@@ -193,16 +183,14 @@ public class SubjectResourceActivity extends FragmentActivity implements View.On
                 case 3:
                     this.fragment=mExcelFragment;
                     break;
-                case 4:
-                    this.fragment=mCommentFragment;
-                    break;
+
             }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return 4;
         }
 
         @Override

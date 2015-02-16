@@ -1,52 +1,53 @@
-package com.meizu.lizhi.mygraduation.main.student.subject;
+package com.meizu.lizhi.mygraduation.main.student.home;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.meizu.lizhi.mygraduation.R;
+import com.meizu.lizhi.mygraduation.data.PostCommentData;
 import com.meizu.lizhi.mygraduation.data.SubjectCommentData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectDetailActivity extends Activity {
-
+public class CommentActivity extends Activity {
 
     ListView mListView;
 
-    List<SubjectCommentData> mList;
+    List<PostCommentData> mList;
 
-   MyListAdapter myListAdapter;
+    MyListAdapter myListAdapter;
 
-   RelativeLayout mRelativeLayoutHeader = null;
+    RelativeLayout mRelativeLayoutHeader = null;
 
     void initView(){
         mListView= (ListView) findViewById(R.id.list);
-        mRelativeLayoutHeader = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.subject_detail_header, null);
+        mRelativeLayoutHeader = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.comment_detail_header, null);
         mListView.addHeaderView(mRelativeLayoutHeader);
         downData();
+
     }
 
     void downData() {
-        mList = new ArrayList<SubjectCommentData>();
+        mList = new ArrayList<PostCommentData>();
         for (int i = 0; i < 10; i++) {
-            SubjectCommentData subjectCommentData = new SubjectCommentData();
-            subjectCommentData.photoUrl = "http://png";
-            subjectCommentData.author = "李志";
-            subjectCommentData.content = "啊哈哈哈机啊哈的哈简单哈觉得很阿娇大环境啊哈搭建";
-            subjectCommentData.StarNum=3.5f;
-            subjectCommentData.date=12232;
-            mList.add(subjectCommentData);
+            PostCommentData postCommentData = new PostCommentData();
+            postCommentData.photoUrl = "http://png";
+            postCommentData.author = "李志";
+            postCommentData.content = "啊哈哈哈机啊哈的哈简单哈觉得很阿娇大环境啊哈搭建";
+            postCommentData.date=12232;
+            mList.add(postCommentData);
         }
 
     }
@@ -54,19 +55,20 @@ public class SubjectDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subject_detail);
+        setContentView(R.layout.activity_comment);
         initView();
         myListAdapter=new MyListAdapter(this,mList);
         mListView.setAdapter(myListAdapter);
+
     }
 
     class MyListAdapter extends BaseAdapter {
 
         Context mContext;
 
-        List<SubjectCommentData> mList;
+        List<PostCommentData> mList;
 
-        MyListAdapter(Context context, List<SubjectCommentData> list) {
+        MyListAdapter(Context context, List<PostCommentData> list) {
             this.mList = list;
             this.mContext = context;
         }
@@ -96,7 +98,7 @@ public class SubjectDetailActivity extends Activity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.putData((SubjectCommentData) getItem(position));
+            viewHolder.putData((PostCommentData) getItem(position));
             return convertView;
         }
 
@@ -105,24 +107,21 @@ public class SubjectDetailActivity extends Activity {
             ImageView mImageViewPhoto;
             TextView mTextViewAuthor;
             TextView mTextViewContent;
-            RatingBar mRatingBar;
             TextView mImageViewDate;
 
             View createView(Context context) {
-                View view = LayoutInflater.from(context).inflate(R.layout.subject_comment_item, null);
+                View view = LayoutInflater.from(context).inflate(R.layout.post_comment_item, null);
                 this.mImageViewPhoto = (ImageView) view.findViewById(R.id.imagePhoto);
                 this.mTextViewAuthor = (TextView) view.findViewById(R.id.author);
                 this.mTextViewContent = (TextView) view.findViewById(R.id.content);
-                this.mRatingBar= (RatingBar) view.findViewById(R.id.subjectRatingBar);
                 this.mImageViewDate= (TextView) view.findViewById(R.id.date);
                 return view;
             }
 
-            void putData(SubjectCommentData subjectCommentData) {
+            void putData(PostCommentData postCommentData) {
                 this.mImageViewPhoto.setBackground(getResources().getDrawable(R.drawable.ic_test));
-                this.mTextViewAuthor.setText(subjectCommentData.author);
-                this.mTextViewContent.setText(subjectCommentData.content);
-                this.mRatingBar.setRating(subjectCommentData.StarNum);
+                this.mTextViewAuthor.setText(postCommentData.author);
+                this.mTextViewContent.setText(postCommentData.content);
                 this.mImageViewDate.setText("2015-02-03 12:12");
             }
         }
