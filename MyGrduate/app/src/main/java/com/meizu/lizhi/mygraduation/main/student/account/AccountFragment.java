@@ -27,7 +27,7 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_account, container, false);
+        View view=inflater.inflate(R.layout.fragment_student_account, container, false);
         mActionBar = getActivity().getActionBar();
         mCustomView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.account_custom_title_view, null);
         mActionBar.setCustomView(mCustomView);

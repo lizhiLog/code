@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.meizu.lizhi.mygraduation.main.student.home.HomeFragment">
+    tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectFragment">
 
     <ListView
-        android:id="@+id/homeList"
+        android:id="@+id/subjectList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

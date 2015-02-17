@@ -1,4 +1,4 @@
-package com.meizu.lizhi.mygraduation.main.student.subject;
+package com.meizu.lizhi.mygraduation.main.teacher.account;
 
 
 
@@ -14,10 +14,10 @@ import com.meizu.lizhi.mygraduation.R;
  * A simple {@link Fragment} subclass.
  *
  */
-public class CommentFragment extends Fragment {
+public class TeacherAccountFragment extends Fragment {
 
 
-    public CommentFragment() {
+    public TeacherAccountFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class CommentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comment, container, false);
+        return inflater.inflate(R.layout.fragment_teacher_account, container, false);
     }
 
 

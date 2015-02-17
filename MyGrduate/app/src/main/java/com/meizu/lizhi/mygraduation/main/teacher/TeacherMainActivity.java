@@ -1,4 +1,4 @@
-package com.meizu.lizhi.mygraduation.main.student;
+package com.meizu.lizhi.mygraduation.main.teacher;
 
 import android.app.ActionBar;
 import android.content.pm.ActivityInfo;
@@ -10,16 +10,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.meizu.lizhi.mygraduation.R;
-import com.meizu.lizhi.mygraduation.main.student.account.AccountFragment;
 import com.meizu.lizhi.mygraduation.main.home.HomeFragment;
-import com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectFragment;
+import com.meizu.lizhi.mygraduation.main.teacher.account.TeacherAccountFragment;
+import com.meizu.lizhi.mygraduation.main.teacher.subject.TeacherSubjectFragment;
 import com.meizu.smartbar.SmartBarUtils;
 
 import java.lang.reflect.Method;
 
-public class StudentMainActivity extends FragmentActivity {
+public class TeacherMainActivity extends FragmentActivity {
 
     ActionBar mActionBar;
     FragmentManager mFragmentManager;
@@ -47,11 +46,10 @@ public class StudentMainActivity extends FragmentActivity {
         } else {
             getWindow().setUiOptions(0);
         }
-        setContentView(R.layout.activity_student_main);
+        setContentView(R.layout.activity_teacher_main);
         initView();
         setCurrentFragment(R.id.menuSubject);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,8 +111,8 @@ public class StudentMainActivity extends FragmentActivity {
         switch (itemId) {
             case R.id.menuSubject:
                 if (mMenuItemSubject == null) {
-                    Log.e("","new Subject");
-                    mFragmentSubject = new StudentSubjectFragment();
+                    Log.e("", "new Subject");
+                    mFragmentSubject = new TeacherSubjectFragment();
                 }
                 fragment = mFragmentSubject;
                 break;
@@ -126,7 +124,7 @@ public class StudentMainActivity extends FragmentActivity {
                 break;
             case R.id.menuAccount:
                 if (mFragmentAccount == null) {
-                    mFragmentAccount = new AccountFragment();
+                    mFragmentAccount = new TeacherAccountFragment();
                 }
                 fragment = mFragmentAccount;
                 break;
@@ -146,3 +144,4 @@ public class StudentMainActivity extends FragmentActivity {
         return false;
     }
 }
+

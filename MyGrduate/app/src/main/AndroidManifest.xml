@@ -50,8 +50,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.student.home.CommentActivity"
+            android:name=".main.home.CommentActivity"
             android:label="@string/title_activity_comment" >
+        </activity>
+        <activity
+            android:name=".main.home.WritePostActivity"
+            android:label="@string/title_activity_write_post" >
+        </activity>
+        <activity
+            android:name=".main.student.account.AccountActivity"
+            android:label="@string/title_activity_account" >
+        </activity>
+        <activity
+            android:name=".main.student.subject.SelectSubjectActivity"
+            android:label="@string/title_activity_select_subject" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,8 +71,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.student.home.WritePostActivity"
-            android:label="@string/title_activity_write_post" >
+            android:name=".main.home.MyCommentPostActivity"
+            android:label="@string/title_activity_my_comment_post" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.home.MySendPostActivity"
+            android:label="@string/title_activity_my_send_post" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.teacher.TeacherMainActivity"
+            android:label="@string/title_activity_teachrt_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

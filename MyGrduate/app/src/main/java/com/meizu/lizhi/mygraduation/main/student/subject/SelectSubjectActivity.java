@@ -1,11 +1,11 @@
 package com.meizu.lizhi.mygraduation.main.student.subject;
 
-
-import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,24 +19,13 @@ import com.meizu.lizhi.mygraduation.data.SubjectData;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SubjectFragment extends Fragment {
-
-    private final String TAG = SubjectFragment.class.getName();
-
-    ActionBar mActionBar;
+public class SelectSubjectActivity extends Activity {
 
     ListView mListView;
 
     List<SubjectData> mList;
 
     MyListAdapter myListAdapter;
-
-    private View mCustomView;
-
-    private int mActionBarOptions;
 
     void downData() {
         mList = new ArrayList<SubjectData>();
@@ -55,40 +44,15 @@ public class SubjectFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,                    //获取数据服务端生成一个json，返回Url
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_subject, container, false);
-        mActionBar = getActivity().getActionBar();
-        mCustomView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.subject_custom_title_view, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowHomeEnabled(false);
+        setContentView(R.layout.activity_select_subject);
         downData();
-        mListView = (ListView) view.findViewById(R.id.subjectList);
-        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
+        mListView = (ListView)findViewById(R.id.list);
+        myListAdapter = new MyListAdapter(this, mList);
         mListView.setAdapter(myListAdapter);
-        return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mActionBarOptions = mActionBar.getDisplayOptions();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mActionBar.setDisplayOptions(mActionBarOptions, ActionBar.DISPLAY_SHOW_CUSTOM | mActionBarOptions);
-
-    }
 
     class MyListAdapter extends BaseAdapter {
 
@@ -161,5 +125,4 @@ public class SubjectFragment extends Fragment {
             }
         }
     }
-
 }

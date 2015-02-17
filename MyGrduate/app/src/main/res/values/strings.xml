@@ -8,6 +8,10 @@
         <item>学生</item>
         <item>老师</item>
     </string-array>
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
 
     <string name="title_activity_student_register">学生注册</string>
 
@@ -36,5 +40,10 @@
     <string name="title_activity_subject_detail">SubjectDetailActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_write_post">WritePostActivity</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="title_activity_select_subject">SelectSubjectActivity</string>
+    <string name="title_activity_my_comment_post">MyCommentPostActivity</string>
+    <string name="title_activity_my_send_post">MySendPostActivity</string>
+    <string name="title_activity_teachrt_main">TeachrtMainActivity</string>
 
 </resources>

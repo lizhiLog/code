@@ -1,11 +1,11 @@
-package com.meizu.lizhi.mygraduation.main.student.home;
+package com.meizu.lizhi.mygraduation.main.home;
 
-
-import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,19 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.meizu.lizhi.mygraduation.R;
+import com.meizu.lizhi.mygraduation.data.PostCommentData;
 import com.meizu.lizhi.mygraduation.data.PostData;
-import com.meizu.lizhi.mygraduation.data.SubjectData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeFragment extends Fragment {
-
-
-    ActionBar mActionBar;
+public class MySendPostActivity extends Activity {
 
     ListView mListView;
 
@@ -34,9 +28,11 @@ public class HomeFragment extends Fragment {
 
     MyListAdapter myListAdapter;
 
-   private View mCustomView;
+    void initView(){
+        mListView= (ListView) findViewById(R.id.list);
+        downData();
+    }
 
-    private int mActionBarOptions;
 
     void downData() {
         mList = new ArrayList<PostData>();
@@ -52,35 +48,14 @@ public class HomeFragment extends Fragment {
 
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        mActionBar = getActivity().getActionBar();
-        mCustomView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.home_custom_title_view, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowHomeEnabled(false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_send_post);
         downData();
-        mListView = (ListView) view.findViewById(R.id.homeList);
-        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
+        mListView = (ListView)findViewById(R.id.list);
+        myListAdapter = new MyListAdapter(this, mList);
         mListView.setAdapter(myListAdapter);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mActionBarOptions = mActionBar.getDisplayOptions();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mActionBar.setDisplayOptions(mActionBarOptions, ActionBar.DISPLAY_SHOW_CUSTOM | mActionBarOptions);
-
     }
 
     class MyListAdapter extends BaseAdapter {
