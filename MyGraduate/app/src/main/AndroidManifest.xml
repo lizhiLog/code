@@ -14,10 +14,20 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".register.StudentRegisterActivity"
             android:label="@string/title_activity_student_register" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".register.TeacherRegisterActivity"
@@ -59,10 +69,20 @@
         <activity
             android:name=".main.home.CommentActivity"
             android:label="@string/title_activity_comment" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".main.home.WritePostActivity"
             android:label="@string/title_activity_write_post" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".main.student.account.AccountActivity"
@@ -97,7 +117,7 @@
         </activity>
         <activity
             android:name=".main.teacher.TeacherMainActivity"
-            android:label="@string/title_activity_teachrt_main" >
+            android:label="@string/title_activity_teacher_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TeacherRegisterActivity extends Activity implements View.OnClickListener {
 
@@ -39,9 +41,9 @@ public class TeacherRegisterActivity extends Activity implements View.OnClickLis
     Spinner mSpinnerAcademy;
     Button mButtonSubmit;
 
-    String userName;
+    String name;
     String email;
-    String userNo;
+    String no;
     String password;
     String school;
     String academy;
@@ -87,14 +89,14 @@ public class TeacherRegisterActivity extends Activity implements View.OnClickLis
                }
                String json = getJson();
                Log.v(TAG,"json:"+json);
-               uploadData(json);
+               doRegister(json);
            }
        }
     }
 
-    public void uploadData(final String json){
-        RequestQueue queue= Volley.newRequestQueue(this);
-       final ProgressDialog progressDialog=ProgressDialog.show(this,"title","...registering...");
+    public void doRegister(final String json){
+       RequestQueue queue= Volley.newRequestQueue(this);
+       final ProgressDialog progressDialog=ProgressDialog.show(this,null,"注册中...");
         StringRequest registerRequest=new StringRequest(Request.Method.POST,actionUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -108,7 +110,7 @@ public class TeacherRegisterActivity extends Activity implements View.OnClickLis
                             if(code==20){
                                 switch (result){
                                     case 0:{
-                                        Toast.makeText(TeacherRegisterActivity.this,"",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(TeacherRegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                                     }break;
                                     case 1:{
                                         Toast.makeText(TeacherRegisterActivity.this,"您要注册的邮箱已被占用，请更换邮箱注册",Toast.LENGTH_SHORT).show();
@@ -143,22 +145,21 @@ public class TeacherRegisterActivity extends Activity implements View.OnClickLis
 
     public boolean checkInfo(){
         email = mEditTextEmail.getText().toString().trim();
-        userName = mEditTextUserName.getText().toString().trim();
-        userNo=mEditTextUserNo.getText().toString().trim();
+        name = mEditTextUserName.getText().toString().trim();
+        no=mEditTextUserNo.getText().toString().trim();
         password = mEditTextPassword.getText().toString().trim();
         school = mSpinnerSchool.getSelectedItem().toString().trim();
         academy = mSpinnerAcademy.getSelectedItem().toString().trim();
         time=getSystemTime();
 
-        if((!email.endsWith("@qq.com") && !email.endsWith("@126.com")&&email.endsWith("@163.com"))||
-                email.length()<12||email.length()>26){
-            Toast.makeText(TeacherRegisterActivity.this, "您注册的邮箱必须是12～26个字符的QQ/126/163邮箱", Toast.LENGTH_SHORT).show();
+        if(!isEmail(email)){
+            Toast.makeText(TeacherRegisterActivity.this, "您注册的邮箱格式不正确", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (userName.length() < 2 || userName.length() > 7) {
+        }else if (name.length() < 2 || name.length() > 7) {
             Toast.makeText(TeacherRegisterActivity.this, "您的昵称必须在2～7个字符之间", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (userNo.length()<8||userNo.length()>15) {
-            Toast.makeText(TeacherRegisterActivity.this, "教师资格编号必须在8～15个字符之间", Toast.LENGTH_SHORT).show();
+        } else if (no.length()<8||no.length()>15) {
+            Toast.makeText(TeacherRegisterActivity.this, "教师资格编号必须在8～15个数字字符", Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.length() < 8 || password.length() > 15) {
             Toast.makeText(TeacherRegisterActivity.this, "密码必须在8～15个字符之间", Toast.LENGTH_SHORT).show();
@@ -167,17 +168,25 @@ public class TeacherRegisterActivity extends Activity implements View.OnClickLis
         return true;
     }
 
+    public boolean isEmail(String email) {
+        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
     public String getJson(){
         JSONObject info = new JSONObject();
         try {
             info.put("code", 20);
             JSONObject value = new JSONObject();
+            value.put("type",0); //0 代表老师
             value.put("email", email);
-            value.put("userName", userName);
-            value.put("userNo",userNo);
+            value.put("name", name);
+            value.put("no",no);
             value.put("password", password);
             value.put("school", school);
             value.put("academy", academy);
+            Log.e(TAG,"time:"+time);
             value.put("time",time);
             info.put("data", value);
         } catch (JSONException e) {

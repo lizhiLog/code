@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/postImage"
+            android:id="@+id/imagePhoto"
             android:background="@drawable/ic_test"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/postAuthor"
             android:text="李志"
-            android:layout_toRightOf="@id/postImage"
+            android:layout_toRightOf="@id/imagePhoto"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="16sp"
@@ -91,6 +91,8 @@
             android:id="@+id/commentEdit"
             android:layout_toLeftOf="@id/send"
             android:layout_centerVertical="true"
+            android:maxLength="50"
+            android:singleLine="true"
             android:layout_margin="5dp"
             android:background="#55654364"
             android:layout_width="match_parent"

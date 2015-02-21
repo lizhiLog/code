@@ -106,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="20sp"
+                android:digits="@string/password_digits"
                 android:inputType="textWebPassword"
                 android:singleLine="true"
                 android:maxLength="15"

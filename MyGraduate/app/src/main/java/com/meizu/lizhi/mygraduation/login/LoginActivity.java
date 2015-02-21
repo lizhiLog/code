@@ -1,6 +1,7 @@
 package com.meizu.lizhi.mygraduation.login;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
@@ -15,6 +16,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
 import com.meizu.lizhi.mygraduation.internet.Status;
@@ -36,7 +44,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener {
@@ -44,21 +54,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     EditText mEditTextEmail;
     EditText mEditTextPassword;
     CheckBox mCheckBox;
-    Spinner mSpinnerUser;
+    Spinner mSpinnerType;
     Button mButtonLogin;
     TextView mTextViewRegister;
 
 
     String userEmail;
     String userPassword;
-    String userKinds;
+    int userType;
 
+    static final String actionUrl="http://" + StaticIp.IP + ":8080/graduationServlet/login";
 
     void initView() {
         mEditTextEmail = (EditText) findViewById(R.id.email);
         mEditTextPassword = (EditText) findViewById(R.id.password);
         mCheckBox = (CheckBox) findViewById(R.id.check);
-        mSpinnerUser = (Spinner) findViewById(R.id.user_spinner);
+        mSpinnerType = (Spinner) findViewById(R.id.type);
         mButtonLogin = (Button) findViewById(R.id.login);
         mTextViewRegister = (TextView) findViewById(R.id.registerText);
     }
@@ -73,27 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Status.LOGIN_SUCCESS: {
 
-                }
-                break;
-                case Status.LOGIN_FAILURE: {
-                    Toast.makeText(LoginActivity.this, "邮箱或密码错误！", Toast.LENGTH_SHORT).show();
-
-                }
-                break;
-                case Status.CONN_FAILURE: {
-                    Toast.makeText(LoginActivity.this, "链接失败！", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-            super.handleMessage(msg);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +92,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         initView();
         initEdit();
+        mButtonLogin.setOnClickListener(this);
 
 
     }
@@ -112,30 +104,83 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (checkInfo() == false) {
                     return;
                 }
-                String json = putJson();
-                Boolean remember = mCheckBox.isChecked();
-                if (remember == true) {
+                String json = getJson();
+                Boolean check = mCheckBox.isChecked();
+                if (check == true) {
                     SharedPreferences sharedPreferences = getSharedPreferences("password", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("userEmail", userEmail);
                     editor.putString("password", userPassword);
                     editor.commit();
                 }
-                new LoginThread(json).start();
+                doLogin(json);
 
             }
             break;
             case R.id.registerText: {
+                Toast.makeText(LoginActivity.this,"去注册哪个？",Toast.LENGTH_SHORT).show();
 
             }
             break;
         }
     }
 
+    public void doLogin(final String json){
+        RequestQueue queue= Volley.newRequestQueue(this);
+        final ProgressDialog progressDialog=ProgressDialog.show(this,null,"登录中...");
+        StringRequest registerRequest=new StringRequest(Request.Method.POST,actionUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject obj=new JSONObject(s);
+                            int code=obj.getInt("code");
+                            JSONObject data=obj.getJSONObject("data");
+                            int result=data.getInt("result");
+                            if(code==22){
+                                switch (result){
+                                    case 0:{
+                                        Toast.makeText(LoginActivity.this,"老师登录成功",Toast.LENGTH_SHORT).show();
+                                    }break;
+                                    case 1:{
+                                        Toast.makeText(LoginActivity.this,"学生登录成功",Toast.LENGTH_SHORT).show();
+                                    }
+                                    break;
+                                    case 2:{
+                                        Toast.makeText(LoginActivity.this,"邮箱或者密码错误",Toast.LENGTH_SHORT).show();
+                                    }break;
+                                    case 3:{
+                                        Toast.makeText(LoginActivity.this,"登录过程中出了一点小问题，请您稍后再试试",Toast.LENGTH_SHORT).show();
+                                    }break;
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        progressDialog.dismiss();
+                        Toast.makeText(LoginActivity.this,"网络链接出了点小问题，请您检查检查网络",Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String, String>();
+                map.put("json",json);
+                return map;
+            }
+        };
+        queue.add(registerRequest);
+    }
+
     boolean checkInfo() {
         userEmail = mEditTextEmail.getText().toString().trim();
         userPassword = mEditTextPassword.getText().toString().trim();
-        userKinds = mSpinnerUser.getSelectedItem().toString();
+        userType = (mSpinnerType.getSelectedItem().toString()).equals("老师")?0:1;
         if (userEmail.equals("") || userPassword.equals("")) {
             Toast.makeText(LoginActivity.this, "用户名和密码不可为空！", Toast.LENGTH_SHORT).show();
             return false;
@@ -143,55 +188,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         return true;
     }
 
-
-    class LoginThread extends Thread {
-
-        String json;
-
-        LoginThread(String json) {
-            this.json = json;
-        }
-
-        @Override
-        public void run() {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://" + StaticIp.IP + ":8080/firstApp/loginServlet");
-            List params = new ArrayList();
-            params.add(new BasicNameValuePair("json", json));
-
-            try {
-                post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-                HttpResponse response = httpClient.execute(post);
-                Message message = new Message();
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    byte[] data;
-                    data = EntityUtils.toByteArray(response.getEntity());
-                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-                    DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
-                    int result = dataInputStream.readInt();
-                    message.what = result;
-                } else {
-                    message.what = Status.CONN_FAILURE;
-                }
-                mHandler.sendMessage(message);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    String putJson() {
+    public String getJson(){
         JSONObject info = new JSONObject();
         try {
-            info.put("code", 21);
+            info.put("code", 22);
             JSONObject value = new JSONObject();
+            value.put("type",userType);
             value.put("email", userEmail);
             value.put("password", userPassword);
-            value.put("userKinds", userKinds);
             info.put("data", value);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -199,4 +203,5 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String json = info.toString();
         return json;
     }
+
 }

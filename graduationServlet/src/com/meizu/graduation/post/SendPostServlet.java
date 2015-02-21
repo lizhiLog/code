@@ -1,4 +1,4 @@
-package com.meizu.graduation.register;
+package com.meizu.graduation.post;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,26 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.meizu.graduation.dao.DbHelper;
-import com.meizu.graduation.data.UserData;
-
 import net.sf.json.JSONObject;
 
-@WebServlet("/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
+import com.meizu.graduation.dao.DbHelper;
+import com.meizu.graduation.data.PostData;
+
+@WebServlet("/SendPost")
+public class SendPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
 
-	public RegisterServlet() {
-		super();
-	}
+    public SendPostServlet() {
+        super();
+    }
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request,
-		HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, String[]> map = request.getParameterMap();
 		String[] value = map.get("json");
 		String json = value[0];
@@ -38,31 +37,23 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println("json2---->" + jsonObject.toString());
 		int code = jsonObject.getInt("code");
 		System.out.println("code"+code);
-		if (code == 20) {
+		if (code == 24) {
 			JSONObject data = jsonObject.getJSONObject("data");
 			System.out.println(data.toString());
-			UserData userData = new UserData();
-			userData.type = data.getInt("type");
-			userData.email = data.getString("email");
-			userData.name = data.getString("name");
-			userData.password = data.getString("password");
-			if(userData.type==0){
-					userData.no = data.getString("no");
-			}
-			userData.school = data.getString("school");
-			userData.academy = data.getString("academy");
-			userData.time = data.getLong("time");
+			PostData postData = new PostData();
+			postData.author = data.getLong("author");
+			postData.content = data.getString("content");
+			postData.time = data.getLong("time");
 			DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
-			int result = dbHelper.doRegister(userData);
+			int result = dbHelper.doSendPost(postData);
 			JSONObject resultJson = new JSONObject();
-			resultJson.put("code", 20);
+			resultJson.put("code", 24);
 			JSONObject resultData=new JSONObject();
 			resultData.put("result", result);
 			resultJson.put("data", resultData);
 			PrintWriter out=response.getWriter();
 			out.write(resultJson.toString().trim());
-			
 		}
-
 	}
+
 }

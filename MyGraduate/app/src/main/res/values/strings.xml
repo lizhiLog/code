@@ -31,8 +31,8 @@
         <item>马克思主义学院</item>
     </string-array>
 
-    <string name="title_activity_teacher_register">注册</string>
-    <string name="title_activity_student_main">学生主界面</string>
+    <string name="title_activity_teacher_register">老师注册</string>
+    <string name="title_activity_student_main">学生界面</string>
     <string name="title_activity_subject">SubjectActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -44,10 +44,14 @@
     <string name="title_activity_select_subject">SelectSubjectActivity</string>
     <string name="title_activity_my_comment_post">MyCommentPostActivity</string>
     <string name="title_activity_my_send_post">MySendPostActivity</string>
-    <string name="title_activity_teachrt_main">TeachrtMainActivity</string>
+    <string name="title_activity_teacher_main">老师主界面</string>
     <string name="hint_password">密码 (8~15个字符)</string>
     <string name="teacher_no">资格编号</string>
     <string name="user_name">昵称</string>
     <string name="email">邮箱</string>
+
+    <string name="password_digits">
+        ._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ
+    </string>
 
 </resources>

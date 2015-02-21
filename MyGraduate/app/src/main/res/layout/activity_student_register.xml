@@ -7,205 +7,144 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <ImageView
-            android:id="@+id/imagePhoto"
-            android:src="@drawable/ic_launcher"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <RelativeLayout
-            android:id="@+id/userNameLayout"
-            android:layout_below="@id/imagePhoto"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
-
-            <TextView
-                android:id="@+id/userText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="用户名"/>
-
-            <EditText
-                android:id="@+id/userName"
-                android:layout_width="@dimen/LREditWidth"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/userText"
-                android:background="@null"
-                android:textAlignment="center"/>
-        </RelativeLayout>
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/userEmailLayout"
-            android:layout_below="@id/userNameLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
-
-            <TextView
-                android:id="@+id/emailText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="邮    箱"/>
+            android:layout_marginLeft="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/register_edit_back_top"
+            android:padding="15dp">
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="@dimen/LREditWidth"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:maxLength="26"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:textSize="20sp"
+                android:textColor="@color/login_text_color"
+                android:hint="@string/email"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/emailText"
                 android:background="@null"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userEmailLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_center"
+            android:padding="15dp">
+
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="7"
+                android:textSize="20sp"
+                android:textColor="@color/login_text_color"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/user_name"
+                android:background="@null"
+                android:textAlignment="center" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/userPasswordLayout"
-            android:layout_below="@id/userEmailLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
+            android:layout_below="@id/userNameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_center"
+            android:padding="15dp">
 
-            <TextView
-                android:id="@+id/passwordText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="密    码"/>
 
             <EditText
-                android:id="@+id/password"
-                android:layout_width="@dimen/LREditWidth"
+                android:id="@+id/userPassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/passwordText"
+                android:textSize="20sp"
+                android:digits="@string/password_digits"
+                android:inputType="textWebPassword"
+                android:singleLine="true"
+                android:maxLength="15"
+                android:textColor="@color/login_text_color"
+                android:hint="@string/hint_password"
                 android:background="@null"
-                android:textAlignment="center"/>
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/userPasswordSecondLayout"
+            android:id="@+id/schoolLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/userPasswordLayout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_center"
+            android:padding="15dp">
 
-            <TextView
-                android:id="@+id/passwordSecondText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="密    码"/>
-
-            <EditText
-                android:id="@+id/passwordSubmit"
-                android:layout_width="@dimen/LREditWidth"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/passwordSecondText"
-                android:background="@null"
-                android:textAlignment="center"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/userSchoolLayout"
-            android:layout_below="@id/userPasswordSecondLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
-
-            <TextView
-                android:id="@+id/schoolText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="学    校"/>
 
             <Spinner
                 android:id="@+id/school"
-                android:layout_width="@dimen/LREditWidth"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:entries="@array/school"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/schoolText"
                 android:background="@null"
-                android:textAlignment="center"/>
+                android:entries="@array/school"
+                android:textAlignment="center" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/userAcademyLayout"
-            android:layout_below="@id/userSchoolLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_width="wrap_content"
+            android:id="@+id/academyLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/LREditTextPadding"
-            android:background="@drawable/login_edit_back">
+            android:layout_below="@id/schoolLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_bottom"
+            android:padding="15dp">
 
-            <TextView
-                android:id="@+id/academyText"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="学    院"/>
 
             <Spinner
                 android:id="@+id/academy"
-                android:layout_width="@dimen/LREditWidth"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:entries="@array/academy"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/academyText"
                 android:background="@null"
-                android:textAlignment="center"/>
+                android:entries="@array/academy"
+                android:textAlignment="center" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/register"
-            android:layout_marginTop="@dimen/LRNormalMargin"
-            android:layout_below="@id/userAcademyLayout"
-            android:layout_alignLeft="@id/userNameLayout"
-            android:layout_alignRight="@id/userNameLayout"
-            android:padding="@dimen/LREditTextPadding"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/academyLayout"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/login_btn_back"
-            android:text="注册"/>
-
+            android:padding="10dp"
+            android:text="注册" />
 
     </RelativeLayout>
 </ScrollView>

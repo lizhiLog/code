@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,7 @@ public class StudentSubjectFragment extends Fragment {
 
         @Override
         public int getCount() {
+            Log.e(TAG, "size:" + mList.size());
             return mList.size();
         }
 
@@ -158,7 +160,7 @@ public class StudentSubjectFragment extends Fragment {
             }
 
             void putData(SubjectData subjectData) {
-                this.mImageViewSubject.setBackground(getResources().getDrawable(R.drawable.ic_test));
+                this.mImageViewSubject.setBackgroundResource(R.drawable.ic_test);
                 this.mTextViewName.setText(subjectData.name);
                 this.mTextViewScore.setText(subjectData.score);
                 this.mTextViewAuthor.setText(subjectData.author);

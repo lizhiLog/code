@@ -6,6 +6,15 @@
     <EditText
         android:id="@+id/postEdit"
         android:gravity="start"
+        android:maxLength="200"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/fontLength"
+        android:text="200字"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
