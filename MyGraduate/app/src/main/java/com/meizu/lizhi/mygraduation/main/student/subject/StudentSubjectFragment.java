@@ -2,6 +2,7 @@ package com.meizu.lizhi.mygraduation.main.student.subject;
 
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
+import com.meizu.lizhi.mygraduation.data.PostData;
 import com.meizu.lizhi.mygraduation.data.SubjectData;
+import com.meizu.lizhi.mygraduation.internet.StaticIp;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,29 +46,83 @@ public class StudentSubjectFragment extends Fragment {
 
     ListView mListView;
 
-    List<SubjectData> mList;
-
     MyListAdapter myListAdapter;
 
     private View mCustomView;
 
     private int mActionBarOptions;
+    
+    List<SubjectData> mList;
 
-    RelativeLayout mRelativeLayoutFootor = null;
+    RelativeLayout mRelativeLayoutFooter = null;
+
+    final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getSubject";
+
 
     void downData() {
         mList = new ArrayList<SubjectData>();
-        for (int i = 0; i < 10; i++) {
-            SubjectData subjectData = new SubjectData();
-            subjectData.imageUrl = "http://png";
-            subjectData.name = "生命与健康";
-            subjectData.score = "4.6";
-            subjectData.author = "魏开平";
-            subjectData.school = "华中师范大学";
-            subjectData.academy = "计算机学院";
-            subjectData.detail = "简介啊哈哈哈机啊哈的哈简单哈觉得很阿娇大环境啊哈搭建";
-            mList.add(subjectData);
-        }
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), null, "加载中...");
+        StringRequest getSubjectRequest = new StringRequest(Request.Method.POST, actionUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        progressDialog.dismiss();
+                        Log.e(TAG, "s---->" + s);
+                        try {
+
+                            JSONObject obj = new JSONObject(s);
+                            int code = obj.getInt("code");
+                            int result = obj.getInt("result");
+                            Log.e(TAG, "obj:" + obj.toString().trim());
+                            if (code == 26) {
+                                switch (result) {
+                                    case 0: {
+                                        JSONArray data = obj.getJSONArray("data");
+                                        Log.e(TAG, "data:" + data);
+                                        Log.e(TAG, "downLoad over");
+                                        Log.e(TAG, "data" + data.length());
+                                        for (int i = 0; i < data.length(); i++) {
+                                            Log.e(TAG, "" + i);
+                                            JSONObject value = data.getJSONObject(i);
+                                            Log.e(TAG, "" + value.toString().trim());
+                                            SubjectData subjectData = new SubjectData();
+                                            subjectData.id=value.getLong("id");
+                                            subjectData.imageUrl= "http://" + StaticIp.IP + ":8080/graduationServlet/photo/subject/"+value.getString("photo");
+                                            subjectData.name=value.getString("name");
+                                            subjectData.author=value.getString("author");
+                                            subjectData.score=value.getString("score");
+                                            subjectData.school=value.getString("school");
+                                            subjectData.academy=value.getString("academy");
+                                            subjectData.detail=value.getString("detail");
+                                            mList.add(subjectData);
+                                            Log.e(TAG, "" + i);
+                                        }
+                                        Log.e(TAG, "mListSize:" + mList.size());
+                                        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
+                                        mListView.setAdapter(myListAdapter);
+                                    }
+                                    break;
+                                    case 1: {
+                                        Toast.makeText(getActivity(), "刷新列表出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+        };
+        queue.add(getSubjectRequest);
 
     }
 
@@ -73,14 +141,10 @@ public class StudentSubjectFragment extends Fragment {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowHomeEnabled(false);
-        downData();
         mListView = (ListView) view.findViewById(R.id.subjectList);
-
-        mRelativeLayoutFootor = (RelativeLayout) LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.subject_footer, null);
-        mListView.addFooterView(mRelativeLayoutFootor);
-
-        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
-        mListView.setAdapter(myListAdapter);
+        downData();
+        mRelativeLayoutFooter = (RelativeLayout) LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.subject_footer, null);
+        mListView.addFooterView(mRelativeLayoutFooter);
         return view;
     }
 

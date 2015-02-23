@@ -43,6 +43,7 @@ public class GetCommentServlet extends HttpServlet {
 			long id=data.getLong("id");
 			DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
 			String resultJson=dbHelper.doGetComment(id);
+			response.setContentType("text/html;charset=utf-8");
 			PrintWriter out=response.getWriter();
 			out.write(resultJson);
 		}

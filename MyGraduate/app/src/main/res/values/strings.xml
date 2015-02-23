@@ -49,9 +49,11 @@
     <string name="teacher_no">资格编号</string>
     <string name="user_name">昵称</string>
     <string name="email">邮箱</string>
+    <string name="password_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
+    <string name="title_activity_create_subject">开设课程</string>
 
-    <string name="password_digits">
-        ._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ
+    <string name="create_subject_tips">
+        提示：开设课程前请慎重考虑，课程开设后切勿轻易删除课程，以免对学生造成不必要的损失，谢谢！\n请点击左边图像区域选择课程图像
     </string>
 
 </resources>

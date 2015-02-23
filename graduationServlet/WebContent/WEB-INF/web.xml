@@ -33,4 +33,29 @@
     <servlet-name>GetPostServlet</servlet-name>
     <url-pattern>/getPost</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>SendCommentServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.post.SendCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendCommentServlet</servlet-name>
+    <url-pattern>/sendComment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetCommentServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.post.GetCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCommentServlet</servlet-name>
+    <url-pattern>/getCommentList</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>CreateSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.CreateSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateSubjectServlet</servlet-name>
+    <url-pattern>/createSubject</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

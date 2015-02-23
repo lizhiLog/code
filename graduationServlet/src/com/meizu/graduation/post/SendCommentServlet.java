@@ -42,12 +42,13 @@ public class SendCommentServlet extends HttpServlet {
 				JSONObject data = jsonObject.getJSONObject("data");
 				System.out.println(data.toString());
 				PostCommentData postCommentData = new PostCommentData();
-				postCommentData.author=data.getLong("id");
+				postCommentData.author=data.getLong("author");
 				postCommentData.post=data.getLong("post");
 				postCommentData.content=data.getString("content");
 				postCommentData.time=data.getLong("time");
 				DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
 				String resultJson = dbHelper.doSendComment(postCommentData);
+				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out=response.getWriter();
 				out.write(resultJson.toString().trim());
 			}

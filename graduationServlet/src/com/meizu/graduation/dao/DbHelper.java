@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 
 import com.meizu.graduation.data.PostCommentData;
 import com.meizu.graduation.data.PostData;
+import com.meizu.graduation.data.SubjectData;
 import com.meizu.graduation.data.UserData;
 import com.mysql.jdbc.Connection;
 
@@ -41,22 +42,61 @@ public class DbHelper {
 			}
 	}
 	
+	public String  doCreateSubject(SubjectData subjectData) {
+		JSONObject json=new JSONObject();
+		json.put("code", 32);
+		try {
+			Statement statement = conn.createStatement();
+			System.out.println("xx");
+			String sql = "insert into subject (author,photo,name,detail,time) values ("
+					+ subjectData.author
+					+ ",'"
+					+ subjectData.photo
+					+"','"
+					+subjectData.name
+					+ "','"
+					+subjectData.describe
+					+ "',"
+					+subjectData.time
+					+ ")";
+			int result = statement.executeUpdate(sql);
+			System.out.println("xx");
+			if (result>0) {
+				json.put("result", 0);
+			} else {
+				json.put("result", 1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	return json.toString().trim();
+	}
+	
 	//评论接口
 	public String doSendComment( PostCommentData postCommentData){
 		JSONObject json=new JSONObject();
 		json.put("code", 30);
+		System.out.println(postCommentData.content);
 		try {
 			Statement statement = conn.createStatement();
 			String sql = "insert into postcomment (author,post,content,time) values ("
 					+ postCommentData.author
-					+ ",'"
+					+ ","
 					+ postCommentData.post
 					+",'"
 					+postCommentData.content
 					+ "',"
 					+postCommentData.time
 					+ " )";
+			System.out.println("back0"+json.toString().trim());
 			int result = statement.executeUpdate(sql);
+			System.out.println("back"+json.toString().trim()+" "+result);
 			System.out.println(result);
 			if (result>0) {
 				json.put("result", 0);
@@ -70,7 +110,8 @@ public class DbHelper {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+	System.out.println("back"+json.toString().trim());
 	return json.toString().trim();
 	}
 	
@@ -99,8 +140,8 @@ public class DbHelper {
 		    data1.put("count",  resultSet.getInt("count"));
 		     //查询评论信息
 		    JSONArray data2=new JSONArray();
-		    String sql2 = "select postcomment_id as id,appuser.photo as photo,appuser.name as name,postcomment.content as content "
-		    		+"postcomment.time as time from postcomment,appuser where postcomment.author==appuser._id and postcomment.post="+id;
+		    String sql2 = "select postcomment._id as id,appuser.photo as photo,appuser.name as name,postcomment.content as content, "
+		    		+"postcomment.time as time from postcomment,appuser where postcomment.author=appuser._id and postcomment.post="+id;
 			resultSet = statement.executeQuery(sql2);
 			resultSet.beforeFirst();
 			while(resultSet.next()){

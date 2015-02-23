@@ -76,7 +76,7 @@ public class CommentActivity extends Activity implements View.OnClickListener {
 
     RequestQueue queue;
 
-    final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getComment";
+    final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getCommentList";
     final String sendActionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/sendComment";
 
     long getSystemTime() {
@@ -101,13 +101,13 @@ public class CommentActivity extends Activity implements View.OnClickListener {
 
     void downData() {
         mList = new ArrayList<PostCommentData>();
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "加载中...");
+        //final ProgressDialog progressDialog = ProgressDialog.show(this, null, "加载中...");
         StringRequest getCommentRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
-                        Log.e(TAG, "s---->" + s);
+                        //progressDialog.dismiss();
+                        Log.e(TAG, "ssss---->" + s);
                         try {
 
                             JSONObject obj = new JSONObject(s);
@@ -117,13 +117,14 @@ public class CommentActivity extends Activity implements View.OnClickListener {
                             if (code == 28) {
                                 switch (result) {
                                     case 0: {
+                                        Log.e(TAG,"xxxxx");
                                         JSONObject data1=obj.getJSONObject("data1");
-                                        photoUrl=data1.getString("photo");
+                                        //photoUrl=data1.getString("photo");
                                         postAuthor=data1.getString("name");
                                         content=data1.getString("content");
                                         postTime=data1.getLong("time");
                                         commentNum=data1.getInt("count");
-
+                                        Log.e(TAG,"data1:--->"+photoUrl+":"+postAuthor+":"+content+":"+postTime+":"+commentNum);
                                         mRelativeLayoutSend.setVisibility(View.GONE);
                                         mImageViewPhoto.setBackgroundResource(R.drawable.ic_test);
                                         mTextViewPostAuthor.setText(postAuthor);
@@ -138,7 +139,7 @@ public class CommentActivity extends Activity implements View.OnClickListener {
                                             JSONObject value = data2.getJSONObject(i);
                                             PostCommentData postCommentData = new PostCommentData();
                                             postCommentData.id=value.getLong("id");
-                                            postCommentData.photoUrl=value.getString("photo");
+                                            //postCommentData.photoUrl=value.getString("photo");
                                             postCommentData.author=value.getString("name");
                                             postCommentData.content=value.getString("content");
                                             postCommentData.time=value.getLong("time");
@@ -163,7 +164,7 @@ public class CommentActivity extends Activity implements View.OnClickListener {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         Toast.makeText(CommentActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -236,12 +237,12 @@ public class CommentActivity extends Activity implements View.OnClickListener {
                             JSONObject obj=new JSONObject(s);
                             int code=obj.getInt("code");
                             int result=obj.getInt("result");
-                            if(code==20){
+                            if(code==30){
                                 switch (result){
                                     case 0:{
                                         Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
                                     }break;
-                                    case 2:{
+                                    case 1:{
                                         Toast.makeText(CommentActivity.this,"评论过程中出了一点小问题，请您稍后再试试",Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -274,7 +275,7 @@ public class CommentActivity extends Activity implements View.OnClickListener {
         try {
             info.put("code", 30);
             JSONObject value = new JSONObject();
-            value.put("id",userId);
+            value.put("author",userId);
             value.put("post",postId);
             value.put("content",comment);
             value.put("time",time);
