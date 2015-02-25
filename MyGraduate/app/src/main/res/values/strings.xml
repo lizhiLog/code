@@ -31,17 +31,36 @@
         <item>马克思主义学院</item>
     </string-array>
 
+    <string-array name="schoolSelect">
+        <item>全部</item>
+        <item>华中科技大学</item>
+        <item>武汉大学</item>
+        <item>华中师范大学</item>
+        <item>武汉理工大学</item>
+    </string-array>
+    <string-array name="academySelect">
+        <item>全部</item>
+        <item>计算机学院</item>
+        <item>化学学院</item>
+        <item>文学院</item>
+        <item>外国语学院</item>
+        <item>物理学院</item>
+        <item>生命与科学学院</item>
+        <item>马克思主义学院</item>
+    </string-array>
+
+
     <string name="title_activity_teacher_register">老师注册</string>
     <string name="title_activity_student_main">学生界面</string>
-    <string name="title_activity_subject">SubjectActivity</string>
+    <string name="title_activity_subject">课程</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_subject_detail">SubjectDetailActivity</string>
+    <string name="title_activity_subject_detail">课程详情</string>
     <string name="title_activity_comment">CommentActivity</string>
-    <string name="title_activity_write_post">WritePostActivity</string>
-    <string name="title_activity_account">AccountActivity</string>
-    <string name="title_activity_select_subject">SelectSubjectActivity</string>
+    <string name="title_activity_write_post">发贴</string>
+    <string name="title_activity_account">个人中心</string>
+    <string name="title_activity_select_subject">选择课程</string>
     <string name="title_activity_my_comment_post">MyCommentPostActivity</string>
     <string name="title_activity_my_send_post">MySendPostActivity</string>
     <string name="title_activity_teacher_main">老师主界面</string>
@@ -51,9 +70,10 @@
     <string name="email">邮箱</string>
     <string name="password_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
     <string name="title_activity_create_subject">开设课程</string>
-
-    <string name="create_subject_tips">
-        提示：开设课程前请慎重考虑，课程开设后切勿轻易删除课程，以免对学生造成不必要的损失，谢谢！\n请点击左边图像区域选择课程图像
-    </string>
+    <string name="create_subject_tips">        提示：开设课程前请慎重考虑，课程开设后切勿轻易删除课程，以免对学生造成不必要的损失，谢谢！\n请点击左边图像区域选择课程图像</string>
+    <string name="title_activity_teacher_subject_detail">课程详细</string>
+    <string name="title_activity_teacher_subject_resource">课程资源</string>
+    <string name="title_activity_add_reource">添加资源</string>
+    <string name="title_activity_select_file">选择文件</string>
 
 </resources>

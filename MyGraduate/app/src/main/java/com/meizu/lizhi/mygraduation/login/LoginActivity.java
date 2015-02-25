@@ -25,27 +25,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
-import com.meizu.lizhi.mygraduation.internet.Status;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -105,14 +90,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 String json = getJson();
-                Boolean check = mCheckBox.isChecked();
-                if (check == true) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("password", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("userEmail", userEmail);
-                    editor.putString("password", userPassword);
-                    editor.commit();
-                }
                 doLogin(json);
 
             }
@@ -132,25 +109,37 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        try {
+                            s=new String(s.toString().getBytes(),"utf-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                         progressDialog.dismiss();
                         try {
                             JSONObject obj=new JSONObject(s);
+                            Log.e("xc",s);
                             int code=obj.getInt("code");
-                            JSONObject data=obj.getJSONObject("data");
-                            int result=data.getInt("result");
+                            int result=obj.getInt("result");
                             if(code==22){
                                 switch (result){
                                     case 0:{
-                                        Toast.makeText(LoginActivity.this,"老师登录成功",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                                        JSONObject data=obj.getJSONObject("data");
+                                        Boolean check = mCheckBox.isChecked();
+                                        if(check==true) {
+                                            saveCurrentUserInfo(data.getLong("id"), data.getString("email"), data.getString("name"), data.getInt("type"));
+                                        }
+                                        if(userType==0){
+                                            //进入老师主页
+                                        }else{
+                                            //进入学生主页
+                                        }
                                     }break;
                                     case 1:{
-                                        Toast.makeText(LoginActivity.this,"学生登录成功",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this,"邮箱或者密码错误",Toast.LENGTH_SHORT).show();
                                     }
                                     break;
                                     case 2:{
-                                        Toast.makeText(LoginActivity.this,"邮箱或者密码错误",Toast.LENGTH_SHORT).show();
-                                    }break;
-                                    case 3:{
                                         Toast.makeText(LoginActivity.this,"登录过程中出了一点小问题，请您稍后再试试",Toast.LENGTH_SHORT).show();
                                     }break;
                                 }
@@ -175,6 +164,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
         };
         queue.add(registerRequest);
+    }
+
+    public void saveCurrentUserInfo(long userId,String email,String name,int type){
+        SharedPreferences sharedPreferences=getSharedPreferences("currentUserInfo",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putLong("id",userId);
+        editor.putString("email",email);
+        editor.putString("name",name);
+        editor.putInt("type",type);
+        editor.commit();
     }
 
     boolean checkInfo() {

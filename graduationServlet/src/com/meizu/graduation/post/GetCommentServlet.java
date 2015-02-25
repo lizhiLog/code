@@ -30,20 +30,17 @@ public class GetCommentServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
 		Map<String, String[]> map = request.getParameterMap();
 		String[] value = map.get("json");
 		String json = value[0];
-		System.out.println("json---->:" + json);
 		JSONObject jsonObject = JSONObject.fromObject(json);
-		System.out.println("json2---->" + jsonObject.toString());
 		int code = jsonObject.getInt("code");
-		System.out.println("code"+code);
 		if (code == 28) {
 			JSONObject data = jsonObject.getJSONObject("data");
 			long id=data.getLong("id");
-			DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
+			DbHelper dbHelper = new DbHelper("test", "root", "123456");
 			String resultJson=dbHelper.doGetComment(id);
-			response.setContentType("text/html;charset=utf-8");
 			PrintWriter out=response.getWriter();
 			out.write(resultJson);
 		}

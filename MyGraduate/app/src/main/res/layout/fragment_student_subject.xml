@@ -1,12 +1,50 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectFragment">
 
     <ListView
-        android:id="@+id/subjectList"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</FrameLayout>
+    <RelativeLayout
+        android:id="@+id/noDataLayout"
+        android:visibility="gone"
+        android:background="@drawable/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+       <LinearLayout
+           android:id="@+id/bottomLayout"
+           android:orientation="horizontal"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_marginBottom="70dp"
+           android:padding="4dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <TextView
+               android:id="@+id/addSubject"
+               android:text="点我"
+               android:textColor="#008B8B"
+               android:layout_marginRight="3dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+          <TextView
+              android:text="添加课程"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+       </LinearLayout>
+
+       <TextView
+           android:layout_above="@id/bottomLayout"
+           android:text="您还没有添加任何课程"
+           android:layout_margin="3dp"
+           android:layout_centerHorizontal="true"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</RelativeLayout>

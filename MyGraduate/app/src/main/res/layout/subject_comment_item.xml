@@ -6,7 +6,6 @@
     <RelativeLayout
         android:id="@+id/resourceItemLayout"
         android:padding="10dp"
-        android:background="#33003456"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,30 +29,16 @@
             android:id="@+id/content"
             android:text="期末好好复习"
             android:layout_below="@id/imagePhoto"
-            android:layout_margin="5dp"
-            android:textSize="12sp"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <RatingBar
-            android:id="@+id/subjectRatingBar"
-            style="?android:attr/ratingBarStyleSmall"
-            android:scrollbarStyle="insideOverlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/author"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/content"
-            android:isIndicator="true"
-            android:numStars="5"/>
-
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/time"
             android:text="2015-02-23 12:12 "
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/subjectRatingBar"
+            android:layout_marginTop="5dp"
             android:gravity="bottom"
             android:layout_below="@id/content"
             android:layout_width="wrap_content"

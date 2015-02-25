@@ -65,7 +65,7 @@ public class CreateSubjectServlet extends HttpServlet {
                     	subjectData.name=data.getString("name");
                     	subjectData.describe=data.getString("describe");
                     	subjectData.time=data.getLong("time");
-                    	DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
+                    	DbHelper dbHelper = new DbHelper("test", "root", "123456");
                     	String result = dbHelper.doCreateSubject(subjectData);
             			PrintWriter out=response.getWriter();
             			out.write(result);                       

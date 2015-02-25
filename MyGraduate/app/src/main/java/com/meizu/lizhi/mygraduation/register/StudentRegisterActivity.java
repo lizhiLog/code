@@ -125,8 +125,7 @@ public class StudentRegisterActivity extends Activity implements View.OnClickLis
                         try {
                             JSONObject obj=new JSONObject(s);
                             int code=obj.getInt("code");
-                            JSONObject data=obj.getJSONObject("data");
-                            int result=data.getInt("result");
+                            int result=obj.getInt("result");
                             if(code==20){
                                 switch (result){
                                     case 0:{

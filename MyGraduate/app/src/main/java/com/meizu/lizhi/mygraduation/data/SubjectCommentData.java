@@ -20,5 +20,5 @@ public class SubjectCommentData {
     //评分
     public float StarNum;
     //评论时间
-    public long date;
+    public long time;
 }

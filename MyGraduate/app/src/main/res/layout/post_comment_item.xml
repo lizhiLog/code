@@ -6,7 +6,6 @@
     <RelativeLayout
         android:id="@+id/resourceItemLayout"
         android:padding="10dp"
-        android:background="#33003456"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -40,7 +39,7 @@
             android:text="期末好好复习"
             android:layout_below="@id/imagePhoto"
             android:layout_marginTop="10dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

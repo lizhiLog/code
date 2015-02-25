@@ -1,0 +1,135 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.meizu.lizhi.mygraduation.main.teacher.subject.AddResourceActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/tipsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_top"
+            android:padding="15dp">
+
+            <EditText
+                android:id="@+id/tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:editable="false"
+                android:hint="提示：将要上传的文件移动到graduation/uploadFile/下，然后选择文件上传"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/selectFileLayout"
+            android:layout_width="match_parent"
+            android:layout_below="@id/tipsLayout"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_center"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/select"
+                android:background="@drawable/selectfile"
+                android:layout_alignParentRight="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+
+            <EditText
+                android:id="@+id/filePath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/select"
+                android:background="@null"
+                android:hint="选择文件"
+                android:singleLine="true"
+                android:editable="false"
+                android:textAlignment="center"
+                android:textColor="@color/login_text_color"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/fileNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectFileLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_center"
+            android:padding="15dp">
+
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="文件名称"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/login_text_color"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/describeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fileNameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/register_edit_back_bottom"
+            android:padding="10dp">
+
+
+            <EditText
+                android:id="@+id/describe"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="文件描述(30字以内)"
+                android:maxLength="30"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/login_text_color"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/describeLayout"
+            android:layout_margin="10dp"
+            android:background="@drawable/login_btn_back"
+            android:padding="10dp"
+            android:text="上传文件"/>
+
+
+    </RelativeLayout>
+</ScrollView>

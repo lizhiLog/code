@@ -28,6 +28,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
+import com.meizu.lizhi.mygraduation.operation.CurrentUser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -60,7 +61,6 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
 
     Bitmap mBitmap;
 
-    long userId=7;
     String subjectPhotoName;
     String subjectName;
     String subjectDescribe;
@@ -126,7 +126,7 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
         try {
             info.put("code", 32);
             JSONObject value = new JSONObject();
-            value.put("author",userId);
+            value.put("author", CurrentUser.getCurentUserId(this));
             value.put("photo", subjectPhotoName);
             value.put("name", subjectName);
             value.put("describe", subjectDescribe);
@@ -220,8 +220,8 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 1000);
-        intent.putExtra("outputY", 1000);
+        intent.putExtra("outputX", 10000);
+        intent.putExtra("outputY", 10000);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, 2);
     }
@@ -249,8 +249,6 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, (mBitmap == null) + "");
-        Log.e(TAG, (fOut == null) + "fOut");
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         try {
             fOut.flush();

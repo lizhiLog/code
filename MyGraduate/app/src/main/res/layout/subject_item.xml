@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
     >
@@ -12,7 +11,7 @@
 
         <ImageView
             android:id="@+id/subjectImage"
-            android:background="@drawable/ic_test"
+            android:layout_centerVertical="true"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
 
@@ -21,6 +20,7 @@
             android:id="@+id/subjectScore"
             android:text="5.6"
             android:textSize="20sp"
+            android:visibility="gone"
             android:textColor="#FF4500"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -61,6 +61,8 @@
         <TextView
             android:id="@+id/detail"
             android:text="详情"
+            android:paddingTop="40dp"
+            android:paddingLeft="40dp"
             android:layout_alignBottom="@id/subjectImage"
             android:textSize="15sp"
             android:textColor="#63B8FF"
@@ -74,8 +76,8 @@
             android:text="披着熊皮的啥白天..."
             android:layout_alignLeft="@id/subjectName"
             android:layout_toLeftOf="@id/detail"
+            android:layout_below="@id/schoolAndAcademy"
             android:layout_marginBottom="5dp"
-            android:layout_alignBottom="@id/subjectImage"
             android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

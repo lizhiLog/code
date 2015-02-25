@@ -9,4 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <RelativeLayout
+        android:id="@+id/noDataLayout"
+        android:visibility="gone"
+        android:background="@drawable/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginBottom="70dp"
+            android:text="暂时没有添加任何课程，赶紧发表吧"
+            android:layout_margin="3dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
 </FrameLayout>

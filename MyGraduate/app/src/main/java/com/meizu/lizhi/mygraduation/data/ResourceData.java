@@ -13,10 +13,14 @@ public class ResourceData {
     public long id;
     //资源类型
     public int type;
+    //课程
+    public long subject;
     //资源图片Url
     public String imageUrl;
     //资源标题
     public String title;
+    //资源名称
+    public String name;
     //资源描述
-    public String describe;
+    public String detail;
 }

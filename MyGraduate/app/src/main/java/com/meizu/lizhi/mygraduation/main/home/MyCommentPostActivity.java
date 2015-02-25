@@ -112,7 +112,7 @@ public class MyCommentPostActivity extends Activity {
             }
 
             void putData(PostData postData) {
-                this.mImageViewPost.setBackground(getResources().getDrawable(R.drawable.ic_test));
+                this.mImageViewPost.setBackgroundResource(R.drawable.ic_test);
                 this.mTextViewAuthor.setText(postData.author);
                 String content=postData.content;
                 this.mTextViewContent.setText(content.length()>40?content.substring(0,39)+"...":content);

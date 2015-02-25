@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"
-            android:entries="@array/school"
+            android:entries="@array/schoolSelect"
             android:textAlignment="center" />
         <Spinner
             android:id="@+id/academy"
@@ -24,7 +24,7 @@
             android:layout_margin="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/school"
-            android:entries="@array/academy"
+            android:entries="@array/academySelect"
             android:textAlignment="center" />
     </RelativeLayout>
 

@@ -22,14 +22,12 @@ public class GetPostServlet extends HttpServlet {
         super();
     }
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        doPost(request, response);
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
+			DbHelper dbHelper = new DbHelper("test", "root", "123456");
 			String json = dbHelper.doGetPost();
 			response.setContentType("text/html;charset=utf-8");
 			PrintWriter out=response.getWriter();

@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#558E8E8E"
+    >
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/add"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <TextView
+            android:text="创建课程"
+            android:layout_gravity="center_vertical"
+            android:textSize="19dp"
+            android:textColor="@color/login_text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
+import com.meizu.lizhi.mygraduation.operation.CurrentUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,10 +48,8 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
 
     private int mActionBarOptions;
 
-    long userId = 5;
 
     String content;
-
     long time;
 
 
@@ -81,7 +80,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_post);
         initView();
-        mTextViewAuthor.setText("李志");
+        mTextViewAuthor.setText(CurrentUser.getCurentUserName(this));
         mTextViewCancel.setOnClickListener(this);
         mTextViewSend.setOnClickListener(this);
         mEditTextPost.addTextChangedListener(
@@ -123,7 +122,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel: {
-                //返回
+                this.finish();
             }
             break;
             case R.id.send: {
@@ -141,25 +140,23 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
 
     public void sendPost(final String json) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "正在发送...");
         StringRequest registerRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(s);
                             int code = obj.getInt("code");
-                            JSONObject data = obj.getJSONObject("data");
-                            int result = data.getInt("result");
+                            int result = obj.getInt("result");
                             if (code == 24) {
                                 switch (result) {
                                     case 0: {
-                                        Toast.makeText(WritePostActivity.this, "发贴成功", Toast.LENGTH_SHORT).show();
+                                        setResult(2);
+                                        WritePostActivity.this.finish();
                                     }
                                     break;
                                     case 1: {
-                                        Toast.makeText(WritePostActivity.this, "注册过程中出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(WritePostActivity.this, "发贴过程中出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
                                     }
                                     break;
                                 }
@@ -172,7 +169,6 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
                         Toast.makeText(WritePostActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -186,13 +182,15 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
         queue.add(registerRequest);
     }
 
+
+
     public String getJson() {
         JSONObject info = new JSONObject();
         time = getSystemTime();
         try {
             info.put("code", 24);
             JSONObject value = new JSONObject();
-            value.put("author", userId);
+            value.put("author", CurrentUser.getCurentUserId(this));
             value.put("content", content);
             value.put("time", time);
             info.put("data", value);

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.meizu.lizhi.mygraduation" >
 
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.student.subject.SubjectResourceActivity"
+            android:name=".main.student.subject.StudentSubjectResourceActivity"
             android:label="@string/title_activity_subject" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.student.subject.SubjectDetailActivity"
+            android:name=".main.student.subject.StudentSubjectDetailActivity"
             android:label="@string/title_activity_subject_detail" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.home.CommentActivity"
+            android:name=".main.home.PostDetailActivity"
             android:label="@string/title_activity_comment" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,6 +88,11 @@
         <activity
             android:name=".main.student.account.AccountActivity"
             android:label="@string/title_activity_account" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".main.student.subject.SelectSubjectActivity"
@@ -133,6 +138,27 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.teacher.subject.TeacherSubjectDetailActivity"
+            android:label="@string/title_activity_teacher_subject_detail" >
+        </activity>
+        <activity
+            android:name=".main.teacher.subject.TeacherSubjectResourceActivity"
+            android:label="@string/title_activity_teacher_subject_resource" >
+        </activity>
+        <activity
+            android:name=".main.teacher.subject.AddResourceActivity"
+            android:label="@string/title_activity_add_reource" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".operation.SelectFileActivity"
+            android:label="@string/title_activity_select_file" >
         </activity>
     </application>
 

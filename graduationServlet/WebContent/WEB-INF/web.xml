@@ -34,12 +34,12 @@
     <url-pattern>/getPost</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>SendCommentServlet</servlet-name>
-    <servlet-class>com.meizu.graduation.post.SendCommentServlet</servlet-class>
+    <servlet-name>SendPostCommentServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.post.SendPostCommentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SendCommentServlet</servlet-name>
-    <url-pattern>/sendComment</url-pattern>
+    <servlet-name>SendPostCommentServlet</servlet-name>
+    <url-pattern>/sendPostComment</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>GetCommentServlet</servlet-name>
@@ -49,7 +49,7 @@
     <servlet-name>GetCommentServlet</servlet-name>
     <url-pattern>/getCommentList</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>CreateSubjectServlet</servlet-name>
     <servlet-class>com.meizu.graduation.subject.CreateSubjectServlet</servlet-class>
   </servlet>
@@ -57,5 +57,76 @@
     <servlet-name>CreateSubjectServlet</servlet-name>
     <url-pattern>/createSubject</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>GetStudentSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.GetStudentSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetStudentSubjectServlet</servlet-name>
+    <url-pattern>/getStudentSubject</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetTeacherSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.GetTeacherSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetTeacherSubjectServlet</servlet-name>
+    <url-pattern>/getTeacherSubject</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetSubjectCommentServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.GetSubjectCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetSubjectCommentServlet</servlet-name>
+    <url-pattern>/getSubjectComment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetSubjectResourceServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.GetSubjectResourceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetSubjectResourceServlet</servlet-name>
+    <url-pattern>/getSubjectResource</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>UploadFileServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.UploadFileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadFileServlet</servlet-name>
+    <url-pattern>/uploadFile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetAllSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.GetAllSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAllSubjectServlet</servlet-name>
+    <url-pattern>/getAllSubject</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SelectSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.SelectSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectSubjectServlet</servlet-name>
+    <url-pattern>/selectSubject</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SendSubjectCommentServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.SendSubjectCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendSubjectCommentServlet</servlet-name>
+    <url-pattern>/sendSubjectComment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DeleteSelectSubjectServlet</servlet-name>
+    <servlet-class>com.meizu.graduation.subject.DeleteSelectSubjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteSelectSubjectServlet</servlet-name>
+    <url-pattern>/deleteSelectSubject</url-pattern>
+  </servlet-mapping>
 </web-app>

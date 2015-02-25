@@ -33,14 +33,10 @@ public class RegisterServlet extends HttpServlet {
 		Map<String, String[]> map = request.getParameterMap();
 		String[] value = map.get("json");
 		String json = value[0];
-		System.out.println("json---->:" + json);
 		JSONObject jsonObject = JSONObject.fromObject(json);
-		System.out.println("json2---->" + jsonObject.toString());
 		int code = jsonObject.getInt("code");
-		System.out.println("code"+code);
 		if (code == 20) {
 			JSONObject data = jsonObject.getJSONObject("data");
-			System.out.println(data.toString());
 			UserData userData = new UserData();
 			userData.type = data.getInt("type");
 			userData.email = data.getString("email");
@@ -52,16 +48,10 @@ public class RegisterServlet extends HttpServlet {
 			userData.school = data.getString("school");
 			userData.academy = data.getString("academy");
 			userData.time = data.getLong("time");
-			DbHelper dbHelper = new DbHelper("studySys", "root", "123456");
-			int result = dbHelper.doRegister(userData);
-			JSONObject resultJson = new JSONObject();
-			resultJson.put("code", 20);
-			JSONObject resultData=new JSONObject();
-			resultData.put("result", result);
-			resultJson.put("data", resultData);
+			DbHelper dbHelper = new DbHelper("test", "root", "123456");
+			String result = dbHelper.doRegister(userData);
 			PrintWriter out=response.getWriter();
-			out.write(resultJson.toString().trim());
-			
+			out.write(result);	
 		}
 
 	}
