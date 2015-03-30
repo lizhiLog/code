@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 
 public class TeacherSubjectResourceActivity extends FragmentActivity implements View.OnClickListener {
@@ -98,6 +99,7 @@ public class TeacherSubjectResourceActivity extends FragmentActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
         setContentView(R.layout.activity_teacher_subject_resource);
         initView();
         mViewPager.setCurrentItem(0);

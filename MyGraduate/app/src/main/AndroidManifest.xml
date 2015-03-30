@@ -11,154 +11,118 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/CustomTheme" >
+        android:theme="@style/FlymeTheme" >
+
         <activity
-            android:name=".login.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".login.StartActivity"
+            android:theme="@style/BaseTheme"
+            android:label="@string/title_activity_start" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".register.StudentRegisterActivity"
-            android:label="@string/title_activity_student_register" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_student_register"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".register.TeacherRegisterActivity"
-            android:icon="@drawable/ic_test"
-            android:label="@string/title_activity_teacher_register" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_teacher_register"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.student.StudentMainActivity"
-            android:label="@string/title_activity_student_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_student_main"
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
             android:name=".main.student.subject.StudentSubjectResourceActivity"
-            android:label="@string/title_activity_subject" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_subject"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.student.subject.StudentSubjectDetailActivity"
-            android:label="@string/title_activity_subject_detail" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_subject_detail"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.home.PostDetailActivity"
-            android:label="@string/title_activity_comment" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_comment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.home.WritePostActivity"
-            android:label="@string/title_activity_write_post" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_write_post"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.student.account.AccountActivity"
-            android:label="@string/title_activity_account" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_account"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".main.student.subject.SelectSubjectActivity"
-            android:label="@string/title_activity_select_subject" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".main.student.subject.StudentSelectSubjectActivity"
+            android:label="@string/title_activity_select_subject"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.home.MyCommentPostActivity"
-            android:label="@string/title_activity_my_comment_post" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_my_comment_post"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.home.MySendPostActivity"
-            android:label="@string/title_activity_my_send_post" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_my_send_post"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.teacher.TeacherMainActivity"
-            android:label="@string/title_activity_teacher_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_teacher_main"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.teacher.subject.CreateSubjectActivity"
-            android:label="@string/title_activity_create_subject" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_create_subject"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.teacher.subject.TeacherSubjectDetailActivity"
-            android:label="@string/title_activity_teacher_subject_detail" >
+            android:label="@string/title_activity_teacher_subject_detail"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.teacher.subject.TeacherSubjectResourceActivity"
-            android:label="@string/title_activity_teacher_subject_resource" >
+            android:label="@string/title_activity_teacher_subject_resource"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".main.teacher.subject.AddResourceActivity"
-            android:label="@string/title_activity_add_reource" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_add_resource"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".operation.SelectFileActivity"
-            android:label="@string/title_activity_select_file" >
+            android:label="@string/title_activity_select_file"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".login.ModifyPasswordActivity"
+            android:label="@string/title_activity_modify_password"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".main.home.MySendPostDetailActivity"
+            android:label="@string/title_activity_my_send_post_detail" >
         </activity>
     </application>
 

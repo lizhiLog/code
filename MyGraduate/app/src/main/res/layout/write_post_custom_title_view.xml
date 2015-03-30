@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/cancel"
         android:text="取消"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -20,6 +20,7 @@
             android:id="@+id/title"
             android:text="发帖子"
             android:textSize="17sp"
+            android:textColor="#111111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -35,7 +36,7 @@
     <TextView
         android:id="@+id/send"
         android:text="发送"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"

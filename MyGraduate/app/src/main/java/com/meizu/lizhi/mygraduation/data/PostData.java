@@ -20,6 +20,4 @@ public class PostData {
     public String author;
     //发帖时间
     public long time;
-    //评论数目
-    public int commentNum;
 }

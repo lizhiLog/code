@@ -1,32 +1,32 @@
 package com.meizu.lizhi.mygraduation.main.teacher.subject;
 
 
-
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.LruCache;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
@@ -38,19 +38,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
- *
  */
 public class TeacherSubjectFragment extends Fragment {
 
 
-    static final String TAG=TeacherSubjectFragment.class.getName();
+    static final String TAG = TeacherSubjectFragment.class.getName();
 
     ActionBar mActionBar;
 
@@ -60,91 +65,48 @@ public class TeacherSubjectFragment extends Fragment {
 
     MyListAdapter myListAdapter;
 
-    private View mCustomView;
-
     private int mActionBarOptions;
 
     RelativeLayout mRelativeLayoutFooter;
 
-    RelativeLayout mRelativeLayoutNoData=null;
+    RelativeLayout mRelativeLayoutNetworkWrong;
 
     RequestQueue queue;
 
+    Map<String, Bitmap> map;
+
+    static final int MAP_SIZE = 10;
+
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getTeacherSubject";
 
-    void downData() {
-        mList = new ArrayList<SubjectData>();
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), null, "加载中...");
+    String json = "";
+
+    SwipeRefreshLayout mRefreshLayout;
+
+
+    void downloadData() {
+        mRefreshLayout.setRefreshing(true);
         StringRequest getSubjectRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
-                        Log.e(TAG, "s---->" + s);
-                        try {
-
-                            JSONObject obj = new JSONObject(s);
-                            int code = obj.getInt("code");
-                            int result = obj.getInt("result");
-                            Log.e(TAG, "obj:" + obj.toString().trim());
-                            if (code == 36) {
-                                switch (result) {
-                                    case 0: {
-                                        JSONArray data = obj.getJSONArray("data");
-                                        Log.e(TAG, "data:" + data);
-                                        Log.e(TAG, "downLoad over");
-                                        Log.e(TAG,data.length()+"");
-                                        if(data.length()==0){
-                                            mListView.setVisibility(View.GONE);
-                                            mRelativeLayoutNoData.setVisibility(View.VISIBLE);
-                                            return;
-                                        }else{
-                                            mRelativeLayoutNoData.setVisibility(View.GONE);
-                                            mListView.setVisibility(View.VISIBLE);
-                                        }
-                                        for (int i = 0; i < data.length(); i++) {
-                                            Log.e(TAG, "" + i);
-                                            JSONObject value = data.getJSONObject(i);
-                                            Log.e(TAG, "" + value.toString().trim());
-                                            SubjectData subjectData = new SubjectData();
-                                            subjectData.id=value.getLong("id");
-                                            subjectData.imageUrl= "http://" + StaticIp.IP + ":8080/graduationServlet/photo/subject/"+value.getString("photo");
-                                            subjectData.name=value.getString("name");
-                                            subjectData.author=value.getString("author");
-                                            subjectData.school=value.getString("school");
-                                            subjectData.academy=value.getString("academy");
-                                            subjectData.detail=value.getString("detail");
-                                            mList.add(subjectData);
-                                            Log.e(TAG, "" + i);
-                                        }
-                                        Log.e(TAG, "mListSize:" + mList.size());
-                                        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
-                                        mListView.setAdapter(myListAdapter);
-                                        mListView.addFooterView(mRelativeLayoutFooter);
-                                    }
-                                    break;
-                                    case 1: {
-                                        Toast.makeText(getActivity(), "刷新列表出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        mRefreshLayout.setRefreshing(false);
+                        json = s;
+                        doAdapter(json);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
+                        mRelativeLayoutNetworkWrong.setVisibility(View.VISIBLE);
                     }
                 }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String, String>();
-                map.put("json",getJson());
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("json", getJson());
                 return map;
             }
 
@@ -152,12 +114,49 @@ public class TeacherSubjectFragment extends Fragment {
         queue.add(getSubjectRequest);
     }
 
-    public String getJson(){
+    public void doAdapter(String json) {
+        mList = new ArrayList<SubjectData>();
+        mList.clear();
+        try {
+            JSONObject obj = new JSONObject(json);
+            int code = obj.getInt("code");
+            int result = obj.getInt("result");
+            if (code == 36) {
+                switch (result) {
+                    case 0: {
+                        JSONArray data = obj.getJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject value = data.getJSONObject(i);
+                            SubjectData subjectData = new SubjectData();
+                            subjectData.id = value.getLong("id");
+                            subjectData.imageUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/photo/subject/" + value.getString("photo");
+                            subjectData.name = value.getString("name");
+                            subjectData.author = value.getString("author");
+                            subjectData.school = value.getString("school");
+                            subjectData.academy = value.getString("academy");
+                            subjectData.detail = value.getString("detail");
+                            mList.add(subjectData);
+                        }
+                        myListAdapter = new MyListAdapter(getActivity().getApplicationContext(), mList);
+                        mListView.setAdapter(myListAdapter);
+                    }
+                    break;
+                    case 1: {
+                        mRelativeLayoutNetworkWrong.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getJson() {
         JSONObject info = new JSONObject();
         try {
             info.put("code", 36);
             JSONObject value = new JSONObject();
-            value.put("id", CurrentUser.getCurentUserId(getActivity()));
+            value.put("id", CurrentUser.getCurrentUserId(getActivity()));
             info.put("data", value);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -167,27 +166,70 @@ public class TeacherSubjectFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        map = new HashMap<String, Bitmap>();
         View view = inflater.inflate(R.layout.fragment_teacher_subject, container, false);
-        mRelativeLayoutNoData= (RelativeLayout) view.findViewById(R.id.noDataLayout);
+        mRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        mRelativeLayoutNetworkWrong = (RelativeLayout) view.findViewById(R.id.networkWrongLayout);
+        mRelativeLayoutNetworkWrong.setVisibility(View.GONE);
         mActionBar = getActivity().getActionBar();
-        mCustomView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.subject_custom_title_view, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setTitle("我的课程");
+        mActionBar.setCustomView(null);
+        mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setDisplayShowHomeEnabled(false);
         mListView = (ListView) view.findViewById(R.id.list);
         mRelativeLayoutFooter = (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.teacher_subject_footer, null);
         mListView.addFooterView(mRelativeLayoutFooter);
-        downData();
+        mRelativeLayoutFooter.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), CreateSubjectActivity.class);
+                        startActivityForResult(intent, 2);
+                    }
+                }
+        );
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
+                    }
+                }
+        );
+        mListView.setOnScrollListener(new MyScrollListener());
+        if (json.equals("")) {
+            downloadData();
+        } else {
+            doAdapter(json);
+        }
         return view;
     }
+
+    class MyScrollListener implements AbsListView.OnScrollListener {
+
+        boolean isFullPull = false;
+
+        @Override
+        public void onScrollStateChanged(AbsListView absListView, int i) {
+            if (i == SCROLL_STATE_IDLE) {
+                if (isFullPull == true) {
+                    isFullPull = false;
+                    downloadData();
+                }
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -201,6 +243,15 @@ public class TeacherSubjectFragment extends Fragment {
         super.onPause();
         mActionBar.setDisplayOptions(mActionBarOptions, ActionBar.DISPLAY_SHOW_CUSTOM | mActionBarOptions);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 2) {
+            if (resultCode == 2) {
+                downloadData();
+            }
+        }
     }
 
     class MyListAdapter extends BaseAdapter {
@@ -244,8 +295,8 @@ public class TeacherSubjectFragment extends Fragment {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getActivity(),TeacherSubjectResourceActivity.class);
-                            intent.putExtra("id",mList.get(position).id);
+                            Intent intent = new Intent(getActivity(), TeacherSubjectResourceActivity.class);
+                            intent.putExtra("id", mList.get(position).id);
                             startActivity(intent);
                         }
                     }
@@ -254,9 +305,9 @@ public class TeacherSubjectFragment extends Fragment {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getActivity(),TeacherSubjectDetailActivity.class);
-                            intent.putExtra("id",mList.get(position).id);
-                            startActivity(intent);
+                            Intent intent = new Intent(getActivity(), TeacherSubjectDetailActivity.class);
+                            intent.putExtra("id", mList.get(position).id);
+                            startActivityForResult(intent, 2);
                         }
                     }
             );
@@ -269,7 +320,6 @@ public class TeacherSubjectFragment extends Fragment {
             RelativeLayout mRelativeLayoutSubjectItem;
             ImageView mImageViewSubject;
             TextView mTextViewName;
-            TextView mTextViewScore;
             TextView mTextViewAuthor;
             TextView mTextViewSchoolAndAcademy;
             TextView mTextViewDescribe;
@@ -277,46 +327,75 @@ public class TeacherSubjectFragment extends Fragment {
 
             View createView(Context context) {
                 View view = LayoutInflater.from(context).inflate(R.layout.subject_item, null);
-                this.mRelativeLayoutSubjectItem= (RelativeLayout) view.findViewById(R.id.subjectItemLayout);
+                this.mRelativeLayoutSubjectItem = (RelativeLayout) view.findViewById(R.id.subjectItemLayout);
                 this.mImageViewSubject = (ImageView) view.findViewById(R.id.subjectImage);
                 this.mTextViewName = (TextView) view.findViewById(R.id.subjectName);
-                this.mTextViewScore = (TextView) view.findViewById(R.id.subjectScore);
                 this.mTextViewAuthor = (TextView) view.findViewById(R.id.author);
                 this.mTextViewSchoolAndAcademy = (TextView) view.findViewById(R.id.schoolAndAcademy);
                 this.mTextViewDescribe = (TextView) view.findViewById(R.id.describe);
-                this.mTextViewDetail= (TextView) view.findViewById(R.id.detail);
+                this.mTextViewDetail = (TextView) view.findViewById(R.id.detail);
                 return view;
             }
 
-            void putData(SubjectData subjectData) {
-                initPhoto(subjectData.imageUrl);
-                this.mTextViewName.setText(subjectData.name);
-                this.mTextViewAuthor.setText(subjectData.author);
-                String schoolAndAcademy=subjectData.school + " " + subjectData.academy;
-                this.mTextViewSchoolAndAcademy.setText(schoolAndAcademy.length()>12?schoolAndAcademy.substring(0,11)+"..":schoolAndAcademy);
-                String detail = subjectData.detail;
-                this.mTextViewDescribe.setText(detail.length() > 11 ? detail.substring(0, 10) + "..." : detail);
-            }
+            void putData(final SubjectData subjectData) {
 
-            public void initPhoto(String url){
-                final LruCache<String, Bitmap> mImageCache = new LruCache<String, Bitmap>(
-                        20);
-                ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
+                final Handler handler = new Handler() {
                     @Override
-                    public void putBitmap(String key, Bitmap value) {
-                        mImageCache.put(key, value);
-                    }
-
-                    @Override
-                    public Bitmap getBitmap(String key) {
-                        return mImageCache.get(key);
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case 1: {
+                                mImageViewSubject.setImageBitmap(map.get(subjectData.imageUrl));
+                            }
+                        }
+                        super.handleMessage(msg);
                     }
                 };
-                ImageLoader mImageLoader = new ImageLoader(queue, imageCache);
-                ImageLoader.ImageListener listener = ImageLoader
-                        .getImageListener(this.mImageViewSubject, android.R.drawable.ic_menu_rotate,
-                                R.drawable.ic_test);
-                mImageLoader.get(url, listener);
+                if (map.containsKey(subjectData.imageUrl)) {
+                    mImageViewSubject.setImageBitmap(map.get(subjectData.imageUrl));
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadImage(subjectData.imageUrl);
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        }
+                    }).start();
+                }
+
+                this.mTextViewName.setText(subjectData.name);
+                this.mTextViewAuthor.setText(subjectData.author);
+                String schoolAndAcademy = subjectData.school + " " + subjectData.academy;
+                this.mTextViewSchoolAndAcademy.setText(schoolAndAcademy.length() > 12 ? schoolAndAcademy.substring(0, 11) + ".." : schoolAndAcademy);
+                String detail = subjectData.detail;
+                this.mTextViewDescribe.setText(detail.length() > 15 ? detail.substring(0, 14) + "..." : detail);
+            }
+
+
+            private void loadImage(String url) {
+                URL myFileUrl;
+                HttpURLConnection connection;
+                try {
+                    myFileUrl = new URL(url);
+                    connection = (HttpURLConnection) myFileUrl.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream inputStream = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+                    if (map.size() == MAP_SIZE) {
+                        Iterator<String> iterator = map.keySet().iterator();
+                        if (iterator.hasNext()) {
+                            map.remove(iterator.next());
+                        }
+                    }
+                    map.put(url, bitmap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

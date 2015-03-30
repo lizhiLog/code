@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,18 +30,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.data.PostCommentData;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
 import com.meizu.lizhi.mygraduation.operation.CurrentUser;
 import com.meizu.lizhi.mygraduation.operation.Operate;
+import com.meizu.lizhi.mygraduation.operation.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +65,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
 
     RelativeLayout mRelativeLayoutHeader = null;
 
-    ImageView mImageViewPhoto;
+    ImageView mImageViewPostPhoto;
     TextView mTextViewPostAuthor;
     TextView mTextViewTime;
     TextView mTextViewContent;
@@ -64,10 +77,18 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
 
     String comment;
     long time;
-
     long postId;
 
+    String postPhoto;
+
     RequestQueue queue;
+
+    Map<String, Bitmap> map;
+
+    static final int MAP_SIZE = 10;
+
+    SwipeRefreshLayout mRefreshLayout;
+
 
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getCommentList";
     final String sendActionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/sendPostComment";
@@ -75,7 +96,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
     void initView(){
         mListView= (ListView) findViewById(R.id.list);
         mRelativeLayoutHeader = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.comment_detail_header, null);
-        mImageViewPhoto= (ImageView) mRelativeLayoutHeader.findViewById(R.id.imagePhoto);
+        mImageViewPostPhoto= (ImageView) mRelativeLayoutHeader.findViewById(R.id.imagePhoto);
         mTextViewPostAuthor= (TextView) mRelativeLayoutHeader.findViewById(R.id.postAuthor);
         mTextViewTime= (TextView) mRelativeLayoutHeader.findViewById(R.id.date);
         mTextViewContent= (TextView) mRelativeLayoutHeader.findViewById(R.id.content);
@@ -87,15 +108,28 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
         mListView.addHeaderView(mRelativeLayoutHeader);
     }
 
+
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1: {
+                    mImageViewPostPhoto.setImageBitmap(map.get(postPhoto));
+                }
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     void downloadData() {
         mList = new ArrayList<PostCommentData>();
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "加载中...");
+        mRefreshLayout.setRefreshing(true);
         StringRequest getCommentRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         Log.e("",s);
-                        progressDialog.dismiss();
+                        mRefreshLayout.setRefreshing(false);
                         try {
                             JSONObject obj = new JSONObject(s);
                             int code = obj.getInt("code");
@@ -103,9 +137,26 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                             if (code == 28) {
                                 switch (result) {
                                     case 0: {
-                                        Log.e(TAG,"xxxxx");
                                         JSONObject data1=obj.getJSONObject("data1");
-                                        mImageViewPhoto.setBackgroundResource(R.drawable.icon_photo);
+                                        if(!data1.getString("photo").equals("empty")){
+                                            postPhoto= "http://" + StaticIp.IP + ":8080/graduationServlet/photo/user/"+data1.getString("photo");
+                                            if(!map.containsKey(postPhoto)){
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        loadImage(postPhoto);
+                                                        Message message = new Message();
+                                                        message.what = 1;
+                                                        mHandler.sendMessage(message);
+                                                    }
+                                                }).start();
+                                            }else {
+                                                mImageViewPostPhoto.setImageBitmap(map.get(postPhoto));
+                                            }
+
+                                        }else{
+                                            mImageViewPostPhoto.setBackgroundResource(R.drawable.icon_photo);
+                                        }
                                         mTextViewPostAuthor.setText(data1.getString("name"));
                                         mTextViewTime.setText(Operate.getFormatTime(data1.getLong("time")));
                                         mTextViewContent.setText(data1.getString("content"));
@@ -118,7 +169,12 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                                             JSONObject value = data2.getJSONObject(i);
                                             PostCommentData postCommentData = new PostCommentData();
                                             postCommentData.id=value.getLong("id");
-                                            postCommentData.photoUrl=value.getString("photo");
+                                            String photo=value.getString("photo");
+                                            if(photo.equals("empty")){
+                                                postCommentData.photoUrl=photo;
+                                            }else{
+                                                postCommentData.photoUrl="http://" + StaticIp.IP + ":8080/graduationServlet/photo/user/"+value.getString("photo");
+                                            }
                                             postCommentData.author=value.getString("name");
                                             postCommentData.content=value.getString("content");
                                             postCommentData.time=value.getLong("time");
@@ -130,7 +186,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                                     }
                                     break;
                                     case 1: {
-                                        Toast.makeText(PostDetailActivity.this, "刷新列表出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
+                                        ToastUtils.showToast(PostDetailActivity.this, "服务器出错,请您稍候再试!");
                                     }
                                 }
                             }
@@ -142,8 +198,8 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
-                        Toast.makeText(PostDetailActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
+                        ToastUtils.showToast(PostDetailActivity.this, "网络链接出了点小问题，请您检查检查网络!");
                     }
                 }) {
             @Override
@@ -169,7 +225,10 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
+        setContentView(R.layout.activity_post_detail);
+        mRefreshLayout= (SwipeRefreshLayout)findViewById(R.id.swipe);
+        map = new HashMap<String, Bitmap>();
         Intent intent=getIntent();
         postId=intent.getLongExtra("id",0);
         queue = Volley.newRequestQueue(this);
@@ -177,6 +236,16 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
         mImageViewToComment.setOnClickListener(this);
         mButtonSend.setOnClickListener(this);
         mRelativeLayoutSend.setVisibility(View.GONE);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
+                    }
+                }
+        );
         downloadData();
 
     }
@@ -195,7 +264,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                 comment=mEditTextComment.getText().toString().trim();
                 time= Operate.getSystemTime();
                 if(comment.equals("")){
-                    Toast.makeText(PostDetailActivity.this,"评论不能为空",Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(PostDetailActivity.this,"评论不能为空");
                     return;
                 }else{
                     mButtonSend.setEnabled(false);
@@ -224,7 +293,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                                         mRelativeLayoutSend.setVisibility(View.GONE);
                                     }break;
                                     case 1:{
-                                        Toast.makeText(PostDetailActivity.this,"评论过程中出了一点小问题，请您稍后再试试",Toast.LENGTH_SHORT).show();
+                                        ToastUtils.showToast(PostDetailActivity.this,"评论过程中出了一点小问题，请您稍后再试试");
                                     }
                                 }
                             }
@@ -236,7 +305,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(PostDetailActivity.this,"网络链接出了点小问题，请您检查检查网络",Toast.LENGTH_SHORT).show();
+                        ToastUtils.showToast(PostDetailActivity.this,"网络链接出了点小问题，请您检查检查网络");
                         mButtonSend.setEnabled(true);
                     }
                 }){
@@ -256,7 +325,7 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
         try {
             info.put("code", 30);
             JSONObject value = new JSONObject();
-            value.put("author", CurrentUser.getCurentUserId(this));
+            value.put("author", CurrentUser.getCurrentUserId(this));
             value.put("post",postId);
             value.put("content",comment);
             value.put("time",time);
@@ -325,12 +394,65 @@ public class PostDetailActivity extends Activity implements View.OnClickListener
                 return view;
             }
 
-            void putData(PostCommentData postCommentData) {
-                this.mImageViewPhoto.setBackgroundResource(R.drawable.icon_photo);
+            void putData(final PostCommentData postCommentData) {
+
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case 1: {
+                               mImageViewPhoto.setImageBitmap(map.get(postCommentData.photoUrl));
+                            }
+                        }
+                        super.handleMessage(msg);
+                    }
+                };
+                if(!postCommentData.photoUrl.equals("empty")) {
+                    if (map.containsKey(postCommentData.photoUrl)) {
+                        mImageViewPhoto.setImageBitmap(map.get(postCommentData.photoUrl));
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadImage(postCommentData.photoUrl);
+                                Message message = new Message();
+                                message.what = 1;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+                    }
+                }else{
+                    this.mImageViewPhoto.setBackgroundResource(R.drawable.icon_photo);
+
+                }
                 this.mTextViewAuthor.setText(postCommentData.author);
                 this.mTextViewContent.setText(postCommentData.content);
                 this.mImageViewDate.setText(Operate.getFormatTime(postCommentData.time));
             }
+        }
+    }
+    public void loadImage(String url) {
+        URL myFileUrl;
+        HttpURLConnection connection;
+        try {
+            myFileUrl = new URL(url);
+            connection = (HttpURLConnection) myFileUrl.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+            if (map.size() == MAP_SIZE) {
+                Iterator<String> iterator = map.keySet().iterator();
+                if (iterator.hasNext()) {
+                    map.remove(iterator.next());
+                }
+            }
+            map.put(url, bitmap);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

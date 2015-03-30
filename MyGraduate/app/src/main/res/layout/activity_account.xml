@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     tools:context="com.meizu.lizhi.mygraduation.main.student.account.AccountActivity">
 
 
@@ -10,18 +12,17 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/studentPhoto"
+            android:id="@+id/imagePhoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/ic_test" />
+            android:layout_marginTop="10dp"/>
 
         <RelativeLayout
             android:id="@+id/emailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/studentPhoto"
+            android:layout_below="@id/imagePhoto"
             android:layout_marginTop="10dp"
             android:background="@drawable/personal_data_layout_back"
             android:padding="15dp">
@@ -37,7 +38,7 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/emailText"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -67,12 +68,14 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/nameText"
+                android:id="@+id/nameEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/nameLabel"
                 android:background="@null"
+                android:maxLength="7"
+                android:singleLine="true"
                 android:gravity="center_vertical"
                 android:text="li zhi"
                 android:textSize="20dp" />
@@ -99,7 +102,7 @@
 
             <Spinner
                 android:id="@+id/sex"
-                android:layout_width="@dimen/LREditWidth"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/sexLabel"
@@ -129,7 +132,7 @@
 
             <Spinner
                 android:id="@+id/school"
-                android:layout_width="@dimen/LREditWidth"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/schoolLabel"
@@ -188,10 +191,11 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/describeText"
+                android:id="@+id/describeEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:maxLength="200"
                 android:layout_toRightOf="@id/describeLabel"
                 android:background="@null"
                 android:gravity="center_vertical"

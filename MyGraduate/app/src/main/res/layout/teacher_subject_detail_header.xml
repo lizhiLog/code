@@ -13,7 +13,6 @@
 
         <ImageView
             android:id="@+id/image"
-            android:background="@drawable/ic_test"
             android:layout_width="80dp"
             android:layout_height="80dp"/>
 
@@ -21,10 +20,18 @@
             android:id="@+id/name"
             android:text="声明预计该"
             android:textSize="17sp"
+            android:textColor="#2C2C2C"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:background="@drawable/icon_delete"
+            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
         <TextView
             android:id="@+id/author"
@@ -32,7 +39,8 @@
             android:layout_below="@id/name"
             android:layout_alignLeft="@id/name"
             android:layout_marginTop="3dp"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textColor="#6C7B8B"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -42,32 +50,44 @@
             android:layout_below="@id/author"
             android:layout_alignLeft="@id/author"
             android:layout_marginTop="3dp"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textColor="#6C7B8B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/detail"
-            android:text=" 简介斯蒂芬大幅度vdd大幅度放到大幅度放到大幅度放到大幅度翻速度缩放"
-            android:textSize="14sp"
+            android:text="简介斯蒂芬大幅度vdd大幅度放到大幅度放到大幅度放到大幅度翻速度缩放"
+            android:textSize="13sp"
+            android:textColor="#8A8A8A"
             android:layout_below="@id/image"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_below="@id/detailLayout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
     <TextView
         android:id="@+id/studentNum"
-        android:text="学生人数(123)"
+        android:text="学生(12)"
+        android:textSize="14sp"
+        android:textColor="#63B8FF"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:layout_below="@id/detailLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/comment"
-        android:background="@drawable/comment"
-        android:layout_below="@id/detailLayout"
+        android:background="@drawable/icon_comment"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
         android:layout_width="20dp"
@@ -76,9 +96,11 @@
     <TextView
         android:id="@+id/commentNum"
         android:text="(123)"
-        android:layout_margin="2dp"
-        android:layout_below="@id/detailLayout"
+        android:layout_marginRight="2dp"
+        android:textSize="14sp"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </RelativeLayout>

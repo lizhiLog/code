@@ -38,7 +38,6 @@ public class LoginServlet extends HttpServlet {
 		if (code == 22) {
 			JSONObject data = jsonObject.getJSONObject("data");
 			UserData userData = new UserData();
-			userData.type = data.getInt("type");
 			userData.email = data.getString("email");
 			userData.password = data.getString("password");
 			DbHelper dbHelper = new DbHelper("test", "root", "123456");

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.data.ResourceData;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
@@ -51,6 +52,7 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
     String name;
     String detail;
     String filePath;
+    String newFilePath;
 
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/uploadFile";
 
@@ -65,6 +67,7 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
         setContentView(R.layout.activity_add_resource);
         Intent intent = getIntent();
         subjectId = intent.getLongExtra("subject", 0);
@@ -88,7 +91,7 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
                     HttpPost post = new HttpPost(actionUrl);
                     MultipartEntity multiPart = new MultipartEntity();
                     multiPart.addPart("json", new StringBody(getJson(), Charset.forName("utf-8")));
-                    File file=new File("/sdcard/graduation/uploadFile/"+name);
+                    File file=new File(newFilePath);
                     multiPart.addPart("file", new FileBody(file));
                     post.setEntity(multiPart);
                     HttpResponse response = client.execute(post);
@@ -114,6 +117,7 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
                             switch (result){
                                 case 0:{
                                     Toast.makeText(AddResourceActivity.this, "文件上传成功", Toast.LENGTH_SHORT).show();
+                                    setResult(2);
                                     AddResourceActivity.this.finish();
                                 }break;
                                 case 1:{
@@ -121,6 +125,7 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
                                 }
                             }
                         }
+                        changeFileName();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -151,7 +156,8 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
                         return;
                     }else{
                         name=Operate.getSystemTime()+filePath.substring(filePath.lastIndexOf("."),filePath.length());
-                        file.renameTo(new File(file.getParent()+"/"+name));
+                        newFilePath=file.getParent()+"/"+name;
+                        file.renameTo(new File(newFilePath));
                         mButtonUpload.setEnabled(false);
                         title=mEditTextName.getText().toString().trim();
                         detail=mEditTextDescribe.getText().toString().trim();
@@ -163,8 +169,8 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
             break;
             case R.id.selectFileLayout: {
                 Intent intent=new Intent(AddResourceActivity.this, SelectFileActivity.class);
-                intent.putExtra("type",1);
-                startActivityForResult(intent, 1);
+                intent.putExtra("type",type);
+                startActivityForResult(intent, 2);
             }
         }
     }
@@ -190,10 +196,15 @@ public class AddResourceActivity extends Activity implements View.OnClickListene
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==1&&resultCode==2){
+        if(requestCode==2&&resultCode==2){
             filePath=data.getStringExtra("path");
             mEditTextPath.setText(filePath.substring(filePath.lastIndexOf('/')+1,filePath.length()));
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void changeFileName(){
+        File file = new File(newFilePath);
+        file.renameTo(new File(filePath));
     }
 }

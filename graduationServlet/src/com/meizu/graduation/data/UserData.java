@@ -11,6 +11,6 @@ public class UserData {
 	public String school;
 	public String academy;
 	public long time;
-	public String describe;
+	public String detail;
 	public String photo;
 }

@@ -2,7 +2,6 @@ package com.meizu.lizhi.mygraduation.main.home;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,9 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
 import com.meizu.lizhi.mygraduation.operation.CurrentUser;
+import com.meizu.lizhi.mygraduation.operation.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,9 +79,10 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
         setContentView(R.layout.activity_write_post);
         initView();
-        mTextViewAuthor.setText(CurrentUser.getCurentUserName(this));
+        mTextViewAuthor.setText(CurrentUser.getCurrentUserName(this));
         mTextViewCancel.setOnClickListener(this);
         mTextViewSend.setOnClickListener(this);
         mEditTextPost.addTextChangedListener(
@@ -128,7 +130,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
             case R.id.send: {
                 String content = mEditTextPost.getText().toString().trim();
                 if (content.length() == 0) {
-                    Toast.makeText(WritePostActivity.this, "亲，请输入文字后再发表", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(WritePostActivity.this,"亲，请输入文字后再发表");
                     return;
                 }
                 String json = getJson();
@@ -156,7 +158,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
                                     }
                                     break;
                                     case 1: {
-                                        Toast.makeText(WritePostActivity.this, "发贴过程中出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
+                                        ToastUtils.showToast(WritePostActivity.this,"发贴过程中出了一点小问题");
                                     }
                                     break;
                                 }
@@ -169,7 +171,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(WritePostActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
+                        ToastUtils.showToast(WritePostActivity.this,"网络链接出了点小问题，请您检查检查网络");
                     }
                 }) {
             @Override
@@ -190,7 +192,7 @@ public class WritePostActivity extends Activity implements View.OnClickListener 
         try {
             info.put("code", 24);
             JSONObject value = new JSONObject();
-            value.put("author", CurrentUser.getCurentUserId(this));
+            value.put("author", CurrentUser.getCurrentUserId(this));
             value.put("content", content);
             value.put("time", time);
             info.put("data", value);

@@ -1,50 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectFragment">
 
-    <ListView
-        android:id="@+id/list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        >
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
-        android:id="@+id/noDataLayout"
-        android:visibility="gone"
-        android:background="@drawable/nodata"
+        android:id="@+id/networkWrongLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-       <LinearLayout
-           android:id="@+id/bottomLayout"
-           android:orientation="horizontal"
-           android:layout_centerHorizontal="true"
-           android:layout_alignParentBottom="true"
-           android:layout_marginBottom="70dp"
-           android:padding="4dp"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
-           <TextView
-               android:id="@+id/addSubject"
-               android:text="点我"
-               android:textColor="#008B8B"
-               android:layout_marginRight="3dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"/>
-          <TextView
-              android:text="添加课程"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-       </LinearLayout>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="亲，网络链接出现问题"
+            android:textColor="#708090"
+            android:textSize="15sp"/>
 
-       <TextView
-           android:layout_above="@id/bottomLayout"
-           android:text="您还没有添加任何课程"
-           android:layout_margin="3dp"
-           android:layout_centerHorizontal="true"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"/>
-
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_centerHorizontal="true"
+            android:text="稍候再试一试吧"
+            android:textColor="#708090"
+            android:textSize="15sp"/>
     </RelativeLayout>
 </RelativeLayout>

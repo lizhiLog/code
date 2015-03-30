@@ -1,37 +1,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.meizu.lizhi.mygraduation.main.student.subject.SelectSubjectActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
+                tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSelectSubjectActivity">
 
     <RelativeLayout
         android:id="@+id/selectLayout"
-        android:background="@drawable/personal_data_layout_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/personal_data_layout_back">
+
         <Spinner
             android:id="@+id/school"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_centerVertical="true"
+            android:layout_margin="10dp"
             android:entries="@array/schoolSelect"
-            android:textAlignment="center" />
+            android:textAlignment="center"/>
+
         <Spinner
             android:id="@+id/academy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_centerVertical="true"
+            android:layout_margin="10dp"
             android:layout_toRightOf="@id/school"
             android:entries="@array/academySelect"
-            android:textAlignment="center" />
+            android:textAlignment="center"/>
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_below="@id/selectLayout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/selectLayout"
+        >
 
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

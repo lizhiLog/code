@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff"
-                tools:context="com.meizu.lizhi.mygraduation.main.student.account.AccountFragment">
+                tools:context="com.meizu.lizhi.mygraduation.main.student.account.StudentAccountFragment">
 
     <RelativeLayout
         android:id="@+id/userLayout"
@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:background="@drawable/ic_test"
+            android:background="@drawable/image_border"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
 
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/image"
-            android:background="@drawable/ic_test"
+            android:background="@drawable/icon_my_comment"
             android:layout_marginLeft="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"/>
@@ -79,7 +79,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imageMyWrite"
-            android:background="@drawable/ic_test"
+            android:background="@drawable/icon_my_write"
+            android:padding="0.5dp"
             android:layout_marginLeft="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"/>

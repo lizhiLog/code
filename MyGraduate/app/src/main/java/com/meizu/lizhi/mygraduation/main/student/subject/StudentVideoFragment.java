@@ -3,21 +3,18 @@ package com.meizu.lizhi.mygraduation.main.student.subject;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -54,21 +51,23 @@ public class StudentVideoFragment extends Fragment implements AdapterView.OnItem
 
     RequestQueue queue;
 
-    MyListAdapter myListAdapter;
+    StudentResourceAdapter mResourceAdapter;
 
     long subjectId;
 
     String json = "";
 
+    SwipeRefreshLayout mRefreshLayout;
+
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getSubjectResource";
 
     public void downloadData() {
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), null, "加载中...");
+        mRefreshLayout.setRefreshing(true);
         StringRequest getSubjectResourceRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
+                        mRefreshLayout.setRefreshing(false);
                         json = s;
                         doAdapter(json);
                     }
@@ -76,7 +75,7 @@ public class StudentVideoFragment extends Fragment implements AdapterView.OnItem
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
+                        mRefreshLayout.setRefreshing(false);
                         Toast.makeText(getActivity(), "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -121,8 +120,8 @@ public class StudentVideoFragment extends Fragment implements AdapterView.OnItem
                             mList.add(resourceData);
                             Log.e(TAG, "" + i);
                         }
-                        myListAdapter = new MyListAdapter(getActivity(), mList);
-                        mListView.setAdapter(myListAdapter);
+                        mResourceAdapter = new StudentResourceAdapter(getActivity(), mList);
+                        mListView.setAdapter(mResourceAdapter);
                     }
                     break;
                     case 1: {
@@ -152,10 +151,21 @@ public class StudentVideoFragment extends Fragment implements AdapterView.OnItem
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resource, container, false);
+        mRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         queue = Volley.newRequestQueue(getActivity());
         Intent intent = getActivity().getIntent();
         subjectId = intent.getLongExtra("id", 0);
         mListView = (ListView) view.findViewById(R.id.list);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
+                    }
+                }
+        );
         if (json.equals("")) {
             downloadData();
         } else {
@@ -170,65 +180,4 @@ public class StudentVideoFragment extends Fragment implements AdapterView.OnItem
         DownloadThread downloadThread=new DownloadThread(mHandler,mList.get(position).name,mList.get(position).title);
         downloadThread.start();
     }
-
-
-    class MyListAdapter extends BaseAdapter {
-
-        Context mContext;
-
-        List<ResourceData> mList;
-
-        MyListAdapter(Context context, List<ResourceData> list) {
-            this.mList = list;
-            this.mContext = context;
-        }
-
-        @Override
-        public int getCount() {
-            return mList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-                convertView = viewHolder.createView(mContext);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-            viewHolder.putData((ResourceData) getItem(position));
-            return convertView;
-        }
-
-
-        class ViewHolder {
-            TextView mTextViewTitle;
-            TextView mTextViewDescribe;
-
-            View createView(Context context) {
-                View view = LayoutInflater.from(context).inflate(R.layout.recourse_item, null);
-                this.mTextViewTitle = (TextView) view.findViewById(R.id.resourceTitle);
-                this.mTextViewDescribe = (TextView) view.findViewById(R.id.resourceDescribe);
-                return view;
-            }
-
-            void putData(ResourceData resourceData) {
-                this.mTextViewTitle.setText(resourceData.title);
-                this.mTextViewDescribe.setText(resourceData.detail);
-            }
-        }
-    }
-
 }

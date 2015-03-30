@@ -1,18 +1,17 @@
 package com.meizu.lizhi.mygraduation.login;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +22,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
+import com.meizu.lizhi.mygraduation.main.student.StudentMainActivity;
+import com.meizu.lizhi.mygraduation.main.teacher.TeacherMainActivity;
+import com.meizu.lizhi.mygraduation.operation.CurrentUser;
+import com.meizu.lizhi.mygraduation.operation.Operate;
+import com.meizu.lizhi.mygraduation.operation.ToastUtils;
+import com.meizu.lizhi.mygraduation.register.StudentRegisterActivity;
+import com.meizu.lizhi.mygraduation.register.TeacherRegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,29 +46,28 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     EditText mEditTextEmail;
     EditText mEditTextPassword;
     CheckBox mCheckBox;
-    Spinner mSpinnerType;
     Button mButtonLogin;
     TextView mTextViewRegister;
+    TextView mTextViewModifyPassword;
 
 
     String userEmail;
     String userPassword;
-    int userType;
 
-    static final String actionUrl="http://" + StaticIp.IP + ":8080/graduationServlet/login";
+    static final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/login";
 
     void initView() {
         mEditTextEmail = (EditText) findViewById(R.id.email);
         mEditTextPassword = (EditText) findViewById(R.id.password);
         mCheckBox = (CheckBox) findViewById(R.id.check);
-        mSpinnerType = (Spinner) findViewById(R.id.type);
+        mTextViewModifyPassword = (TextView) findViewById(R.id.modifyPassword);
         mButtonLogin = (Button) findViewById(R.id.login);
         mTextViewRegister = (TextView) findViewById(R.id.registerText);
     }
 
     void initEdit() {
-        SharedPreferences sharedPreferences = getSharedPreferences("password", MODE_PRIVATE);
-        String name = sharedPreferences.getString("userEmail", "");
+        SharedPreferences sharedPreferences = getSharedPreferences("passwordInfo", MODE_PRIVATE);
+        String name = sharedPreferences.getString("email", "");
         String password = sharedPreferences.getString("password", "");
         if (!name.equals("") && !password.equals("")) {
             mEditTextEmail.setText(name);
@@ -70,16 +76,64 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
 
+    void checkHasLogin(){
+        switch (CurrentUser.getCurrentUserType(this)){
+            case 0:{
+                Intent intent=new Intent(LoginActivity.this,TeacherMainActivity.class);
+                startActivity(intent);
+                LoginActivity.this.finish();
+            }break;
+            case 1:{
+                Intent intent=new Intent(LoginActivity.this,StudentMainActivity.class);
+                startActivity(intent);
+                LoginActivity.this.finish();
+            }break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(),true);
         setContentView(R.layout.activity_login);
+        checkHasLogin();
         initView();
         initEdit();
         mButtonLogin.setOnClickListener(this);
+        mTextViewModifyPassword.setOnClickListener(this);
+        mTextViewRegister.setOnClickListener(this);
 
+    }
 
+    public void showDialog(){
+        Dialog dialog = new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.btn_star)//设置对话框图标
+                .setTitle("选择注册类型")
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("学生", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent=new Intent(LoginActivity.this, StudentRegisterActivity.class);
+                        startActivity(intent);
+
+                    }
+                })
+                .setNeutralButton("老师", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent=new Intent(LoginActivity.this, TeacherRegisterActivity.class);
+                        startActivity(intent);
+                    }
+                }).create();
+
+        dialog.show();
     }
 
     @Override
@@ -89,59 +143,70 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (checkInfo() == false) {
                     return;
                 }
-                String json = getJson();
-                doLogin(json);
-
+                doLogin(getJson());
             }
             break;
             case R.id.registerText: {
-                Toast.makeText(LoginActivity.this,"去注册哪个？",Toast.LENGTH_SHORT).show();
-
+                showDialog();
             }
             break;
+            case R.id.modifyPassword: {
+                Intent intent=new Intent(LoginActivity.this,ModifyPasswordActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
-    public void doLogin(final String json){
-        RequestQueue queue= Volley.newRequestQueue(this);
-        final ProgressDialog progressDialog=ProgressDialog.show(this,null,"登录中...");
-        StringRequest registerRequest=new StringRequest(Request.Method.POST,actionUrl,
+    public void doLogin(final String json) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "登录中...");
+        StringRequest registerRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         try {
-                            s=new String(s.toString().getBytes(),"utf-8");
+                            s = new String(s.toString().getBytes(), "utf-8");
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
                         try {
-                            JSONObject obj=new JSONObject(s);
-                            Log.e("xc",s);
-                            int code=obj.getInt("code");
-                            int result=obj.getInt("result");
-                            if(code==22){
-                                switch (result){
-                                    case 0:{
-                                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                        JSONObject data=obj.getJSONObject("data");
+                            JSONObject obj = new JSONObject(s);
+                            int code = obj.getInt("code");
+                            int result = obj.getInt("result");
+                            if (code == 22) {
+                                switch (result) {
+                                    case 0: {
+                                        JSONObject data = obj.getJSONObject("data");
                                         Boolean check = mCheckBox.isChecked();
-                                        if(check==true) {
-                                            saveCurrentUserInfo(data.getLong("id"), data.getString("email"), data.getString("name"), data.getInt("type"));
+                                        long id = data.getLong("id");
+                                        String photo=data.getString("photo");
+                                        String email = data.getString("email");
+                                        String name = data.getString("name");
+                                        String password=data.getString("password");
+                                        int type = data.getInt("type");
+                                        saveCurrentUserInfo(id,photo,email, name, type);   //标志当前用户
+                                        if (check == true) {
+                                            savePasswordInfo(email,password);
                                         }
-                                        if(userType==0){
-                                            //进入老师主页
-                                        }else{
-                                            //进入学生主页
+                                        if (type == 0) {
+                                            Intent intent=new Intent(LoginActivity.this, TeacherMainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Intent intent=new Intent(LoginActivity.this, StudentMainActivity.class);
+                                            startActivity(intent);
                                         }
-                                    }break;
-                                    case 1:{
-                                        Toast.makeText(LoginActivity.this,"邮箱或者密码错误",Toast.LENGTH_SHORT).show();
+                                        LoginActivity.this.finish();
                                     }
                                     break;
-                                    case 2:{
-                                        Toast.makeText(LoginActivity.this,"登录过程中出了一点小问题，请您稍后再试试",Toast.LENGTH_SHORT).show();
-                                    }break;
+                                    case 1: {
+                                        ToastUtils.showToast(LoginActivity.this,"邮箱或者密码错误");
+                                    }
+                                    break;
+                                    case 2: {
+                                        ToastUtils.showToast(LoginActivity.this,"登录过程中出了一点小问题，请您稍后再试试");
+                                    }
+                                    break;
                                 }
                             }
                         } catch (JSONException e) {
@@ -153,33 +218,41 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this,"网络链接出了点小问题，请您检查检查网络",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
-                }){
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String, String>();
-                map.put("json",json);
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("json", json);
                 return map;
             }
         };
         queue.add(registerRequest);
     }
 
-    public void saveCurrentUserInfo(long userId,String email,String name,int type){
-        SharedPreferences sharedPreferences=getSharedPreferences("currentUserInfo",MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putLong("id",userId);
-        editor.putString("email",email);
-        editor.putString("name",name);
-        editor.putInt("type",type);
+    public void saveCurrentUserInfo(long userId,String photo,String email, String name, int type) {
+        SharedPreferences sharedPreferences = getSharedPreferences("currentUserInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("id", userId);
+        editor.putString("photo",photo);
+        editor.putString("email", email);
+        editor.putString("name", name);
+        editor.putInt("type", type);
+        editor.commit();
+    }
+
+    public void savePasswordInfo(String email,String password){
+        SharedPreferences sharedPreferences = getSharedPreferences("passwordInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
         editor.commit();
     }
 
     boolean checkInfo() {
         userEmail = mEditTextEmail.getText().toString().trim();
         userPassword = mEditTextPassword.getText().toString().trim();
-        userType = (mSpinnerType.getSelectedItem().toString()).equals("老师")?0:1;
         if (userEmail.equals("") || userPassword.equals("")) {
             Toast.makeText(LoginActivity.this, "用户名和密码不可为空！", Toast.LENGTH_SHORT).show();
             return false;
@@ -187,12 +260,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         return true;
     }
 
-    public String getJson(){
+    public String getJson() {
         JSONObject info = new JSONObject();
         try {
             info.put("code", 22);
             JSONObject value = new JSONObject();
-            value.put("type",userType);
             value.put("email", userEmail);
             value.put("password", userPassword);
             info.put("data", value);

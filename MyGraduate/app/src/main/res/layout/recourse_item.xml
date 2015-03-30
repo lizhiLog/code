@@ -7,13 +7,14 @@
         android:id="@+id/resourceItemLayout"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/resourceImage"
-            android:background="@drawable/file"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:background="@drawable/icon_file"
+            android:layout_centerVertical="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
 
         <TextView
             android:id="@+id/resourceTitle"
@@ -32,13 +33,14 @@
             android:text="期末好好复习"
             android:layout_alignLeft="@id/resourceTitle"
             android:layout_marginBottom="5dp"
-            android:layout_alignBottom="@id/resourceImage"
+            android:layout_below="@id/resourceTitle"
+            android:layout_marginTop="5dp"
             android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
          <ImageView
-             android:id="@+id/download"
+             android:id="@+id/handleImage"
              android:background="@drawable/icon_download"
              android:layout_alignParentRight="true"
              android:layout_centerVertical="true"

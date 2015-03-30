@@ -12,30 +12,21 @@
         <ImageView
             android:id="@+id/subjectImage"
             android:layout_centerVertical="true"
+            android:background="@drawable/image_border"
+            android:padding="0.5dp"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
 
 
         <TextView
-            android:id="@+id/subjectScore"
-            android:text="5.6"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:textColor="#FF4500"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
             android:id="@+id/subjectName"
             android:text="奔跑吧兄弟"
             android:layout_toRightOf="@id/subjectImage"
-            android:layout_toLeftOf="@id/subjectScore"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:textSize="18sp"
-            android:textColor="#5C5C5C"
+            android:textSize="17sp"
+            android:textColor="#2C2C2C"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -45,7 +36,8 @@
             android:layout_below="@id/subjectName"
             android:layout_alignLeft="@id/subjectName"
             android:layout_marginTop="3dp"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textColor="#6C7B8B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -54,15 +46,16 @@
             android:text="华中师范大学 计算机学院"
             android:layout_below="@id/author"
             android:layout_alignLeft="@id/subjectName"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textColor="#6C7B8B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/detail"
             android:text="详情"
-            android:paddingTop="40dp"
-            android:paddingLeft="40dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
             android:layout_alignBottom="@id/subjectImage"
             android:textSize="15sp"
             android:textColor="#63B8FF"
@@ -77,8 +70,9 @@
             android:layout_alignLeft="@id/subjectName"
             android:layout_toLeftOf="@id/detail"
             android:layout_below="@id/schoolAndAcademy"
-            android:layout_marginBottom="5dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
+            android:textColor="#8A8A8A"
+            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

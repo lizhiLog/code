@@ -12,7 +12,8 @@
 
         <ImageView
             android:id="@+id/postImage"
-            android:background="@drawable/ic_test"
+            android:padding="0.5dp"
+            android:background="@drawable/image_border"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 
@@ -23,7 +24,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="16sp"
-            android:textColor="#5C5C5C"
+            android:textColor="#2C2C2C"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -34,13 +35,14 @@
             android:layout_alignLeft="@id/postAuthor"
             android:layout_marginTop="3dp"
             android:textSize="12sp"
-            android:textColor="#545454"
+            android:textColor="#6C7B8B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/content"
             android:text="华中师范大学计算机学院"
+            android:textColor="#5C5C5C"
             android:layout_below="@id/date"
             android:layout_alignLeft="@id/imagePhoto"
             android:layout_marginTop="10dp"
@@ -54,20 +56,8 @@
             android:layout_below="@id/content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/commentNum"
-            android:text="(20)"
-            android:layout_below="@id/content"
-            android:layout_toLeftOf="@id/comment"
-            android:gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_alignBottom="@id/comment"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
     </RelativeLayout>
 </RelativeLayout>

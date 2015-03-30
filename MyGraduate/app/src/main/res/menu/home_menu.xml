@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.meizu.lizhi.mygraduation.main.student.StudentMainActivity" >
+    <item android:id="@+id/writePost"
+          android:title="发贴"
+          android:icon="@drawable/write_post"
+          android:orderInCategory="100"
+          android:showAsAction="always|withText" />
+</menu>

@@ -1,12 +1,18 @@
 package com.meizu.lizhi.mygraduation.main.student.subject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.LruCache;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.data.SubjectCommentData;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
@@ -38,8 +45,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +91,8 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
 
     String json="";
 
+    SwipeRefreshLayout mRefreshLayout;
+
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getSubjectComment";
     final String sendActionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/sendSubjectComment";
     final String deleteActionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/deleteSelectSubject";
@@ -101,10 +116,12 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
     }
 
     void downloadData() {
+        mRefreshLayout.setRefreshing(true);
         StringRequest getSubjectCommentRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        mRefreshLayout.setRefreshing(false);
                         json=s;
                         doAdapter(json);
                     }
@@ -112,6 +129,7 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        mRefreshLayout.setRefreshing(false);
                         Toast.makeText(StudentSubjectDetailActivity.this, "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -158,6 +176,8 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                             JSONObject value = data2.getJSONObject(i);
                             SubjectCommentData subjectCommentData = new SubjectCommentData();
                             subjectCommentData.id=value.getLong("id");
+                            String photo=value.getString("photo");
+                            subjectCommentData.photoUrl=(photo.equals("empty")?"empty":"http://" + StaticIp.IP + ":8080/graduationServlet/photo/user/"+photo);
                             subjectCommentData.author=value.getString("name");
                             subjectCommentData.content=value.getString("content");
                             subjectCommentData.time=value.getLong("time");
@@ -202,7 +222,9 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
         setContentView(R.layout.activity_student_subject_detail);
+        mRefreshLayout= (SwipeRefreshLayout)findViewById(R.id.swipe);
         queue= Volley.newRequestQueue(this);
         initView();
         mImageViewToComment.setOnClickListener(this);
@@ -211,6 +233,16 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
         mRelativeLayoutSend.setVisibility(View.GONE);
         Intent intent=getIntent();
         subjectId=intent.getLongExtra("id",0);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
+                    }
+                }
+        );
         if(json.equals("")){
             downloadData();
         }else{
@@ -239,12 +271,29 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                 }
             }break;
             case R.id.delete:{
-                deleteSelectSubject();
+                Dialog dialog = new AlertDialog.Builder(StudentSubjectDetailActivity.this)
+                        .setIcon(android.R.drawable.btn_star)//设置对话框图标
+                        .setTitle("你确定退出该门课程吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                deleteSelectSubject(CurrentUser.getCurrentUserId(StudentSubjectDetailActivity.this),subjectId);
+                            }
+                        })
+                        .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+
+                dialog.show();
             }
         }
     }
 
-    public void deleteSelectSubject(){
+    public void deleteSelectSubject(final long userId, final long subjectId){
         mImageViewDelete.setEnabled(false);
         StringRequest sendRequest=new StringRequest(Request.Method.POST,deleteActionUrl,
                 new Response.Listener<String>() {
@@ -259,7 +308,6 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                                 switch (result){
                                     case 0:{
                                        mImageViewDelete.setEnabled(true);
-                                       //Intent intent=new Intent(StudentSubjectDetailActivity.this,StudentSubjectFragment.class);
                                        setResult(2);
                                        StudentSubjectDetailActivity.this.finish();
                                     }break;
@@ -288,7 +336,7 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                 try {
                     jsonObject.put("code",48);
                     JSONObject value=new JSONObject();
-                    value.put("author", CurrentUser.getCurentUserId(StudentSubjectDetailActivity.this));
+                    value.put("author", userId);
                     value.put("subject",subjectId);
                     jsonObject.put("data",value);
                 } catch (JSONException e) {
@@ -341,7 +389,7 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                 try {
                     jsonObject.put("code",46);
                     JSONObject value=new JSONObject();
-                    value.put("author", CurrentUser.getCurentUserId(StudentSubjectDetailActivity.this));
+                    value.put("author", CurrentUser.getCurrentUserId(StudentSubjectDetailActivity.this));
                     value.put("subject",subjectId);
                     value.put("content",comment);
                     value.put("time",Operate.getSystemTime());
@@ -363,9 +411,14 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
 
         List<SubjectCommentData> mList;
 
+        Map<String, Bitmap> map;
+
+        static final int MAP_SIZE = 10;
+
         MyListAdapter(Context context, List<SubjectCommentData> list) {
             this.mList = list;
             this.mContext = context;
+            this.map = new HashMap<String, Bitmap>();
         }
 
         @Override
@@ -413,11 +466,63 @@ public class StudentSubjectDetailActivity extends Activity implements View.OnCli
                 return view;
             }
 
-            void putData(SubjectCommentData subjectCommentData) {
-                this.mImageViewPhoto.setBackgroundResource(R.drawable.icon_photo);
+            void putData(final SubjectCommentData subjectCommentData) {
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case 1: {
+                                mImageViewPhoto.setImageBitmap(map.get(subjectCommentData.photoUrl));
+                            }
+                        }
+                        super.handleMessage(msg);
+                    }
+                };
+                if (!subjectCommentData.photoUrl.equals("empty")) {
+                    if (map.containsKey(subjectCommentData.photoUrl)) {
+                        mImageViewPhoto.setImageBitmap(map.get(subjectCommentData.photoUrl));
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadImage(subjectCommentData.photoUrl);
+                                Message message = new Message();
+                                message.what = 1;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+                    }
+                }else{
+                    mImageViewPhoto.setBackgroundResource(R.drawable.icon_photo);
+                }
                 this.mTextViewAuthor.setText(subjectCommentData.author);
                 this.mTextViewContent.setText(subjectCommentData.content);
                 this.mImageViewTime.setText(Operate.getFormatTime(subjectCommentData.time));
+            }
+
+            private void loadImage(String url) {
+                URL myFileUrl;
+                HttpURLConnection connection;
+                try {
+                    myFileUrl = new URL(url);
+                    connection = (HttpURLConnection) myFileUrl.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream inputStream = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+                    if (map.size() == MAP_SIZE) {
+                        Iterator<String> iterator = map.keySet().iterator();
+                        if (iterator.hasNext()) {
+                            map.remove(iterator.next());
+                        }
+                    }
+                    map.put(url, bitmap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

@@ -4,36 +4,24 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.util.LruCache;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
+import com.meizu.flyme.reflect.StatusBarProxy;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
 import com.meizu.lizhi.mygraduation.operation.CurrentUser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -84,6 +72,7 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarProxy.setStatusBarDarkIcon(getWindow(), true);
         setContentView(R.layout.activity_create_subject);
         initView();
         mImageViewPhoto.setOnClickListener(this);
@@ -104,7 +93,6 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
                 if (checkInfo() == false) {
                     return;
                 }
-                Log.e(TAG, (mBitmap == null) + "");
                 saveSubjectPhoto();
                 createSubject();
             }
@@ -126,7 +114,7 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
         try {
             info.put("code", 32);
             JSONObject value = new JSONObject();
-            value.put("author", CurrentUser.getCurentUserId(this));
+            value.put("author", CurrentUser.getCurrentUserId(this));
             value.put("photo", subjectPhotoName);
             value.put("name", subjectName);
             value.put("describe", subjectDescribe);
@@ -140,6 +128,7 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
     }
 
     public void createSubject() {
+        mButtonSubmit.setEnabled(false);
         final ProgressDialog progressDialog = ProgressDialog.show(this, null, "上传中...");
         new AsyncTask<Void, Void, HttpResponse>() {
             @Override
@@ -166,6 +155,7 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
             @Override
             protected void onPostExecute(HttpResponse response) {
                 progressDialog.dismiss();
+                mButtonSubmit.setEnabled(true);
                 if (response != null) {
                     HttpEntity entity=response.getEntity();
                     try {
@@ -176,7 +166,8 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
                         if(code==32){
                             switch (result){
                                 case 0:{
-                                    Toast.makeText(CreateSubjectActivity.this, "课程创建成功", Toast.LENGTH_SHORT).show();
+                                   setResult(2);
+                                   CreateSubjectActivity.this.finish();
                                 }break;
                                 case 1:{
                                     Toast.makeText(CreateSubjectActivity.this, "服务器出了点小问题，请您稍候再试试", Toast.LENGTH_SHORT).show();
@@ -200,7 +191,9 @@ public class CreateSubjectActivity extends Activity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case 1:
-                startPhotoZoom(data.getData());
+                if(data!=null) {
+                    startPhotoZoom(data.getData());
+                }
                 break;
             case 2:
                 if (data != null) {

@@ -30,9 +30,11 @@ public class RegisterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
+		 response.setContentType("text/html;charset=utf-8");
 		Map<String, String[]> map = request.getParameterMap();
 		String[] value = map.get("json");
 		String json = value[0];
+		System.out.print("xsfdbfbdf--->"+json);
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		int code = jsonObject.getInt("code");
 		if (code == 20) {

@@ -9,5 +9,5 @@ package com.meizu.lizhi.mygraduation.internet;/**
  * FIXME
  */
 public class StaticIp {
-    static public String IP="192.168.9.101";
+    static public String IP="192.168.9.100";
 }

@@ -2,12 +2,20 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
                 tools:context="com.meizu.lizhi.mygraduation.main.student.subject.StudentSubjectDetailActivity">
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_marginTop="5dp"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        >
 
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

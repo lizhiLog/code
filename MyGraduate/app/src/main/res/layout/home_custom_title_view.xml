@@ -4,22 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/titleImage"
-        android:background="@drawable/ic_test"
-        android:layout_width="25dp"
-        android:layout_centerVertical="true"
-        android:layout_height="25dp"/>
-
     <TextView
         android:id="@+id/title"
         android:text="社区"
-        android:textSize="20sp"
+        android:textSize="22sp"
+        android:textColor="#111111"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/titleImage"
-        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/writePost"
         android:background="@drawable/write_post"

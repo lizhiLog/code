@@ -1,20 +1,17 @@
 package com.meizu.lizhi.mygraduation.main.teacher.subject;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.data.ResourceData;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
-import com.meizu.lizhi.mygraduation.operation.SelectFileActivity;
+import com.meizu.lizhi.mygraduation.main.student.subject.StudentResourceAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,61 +45,38 @@ public class TeacherDocumentFragment extends Fragment {
 
     RequestQueue queue;
 
-    MyListAdapter myListAdapter;
+    TeacherResourceAdapter mResourceAdapter;
 
     RelativeLayout mRelativeLayoutFooter;
+
+    RelativeLayout mRelativeLayoutNetworkWrong;
 
     long subjectId;
 
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getSubjectResource";
 
-    void downData() {
+    String json="";
+
+    SwipeRefreshLayout mRefreshLayout;
+
+    void downloadData() {
         mList = new ArrayList<ResourceData>();
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), null, "加载中...");
+        mRefreshLayout.setRefreshing(true);
         StringRequest getSubjectResourceRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject obj = new JSONObject(s);
-                            int code = obj.getInt("code");
-                            int result = obj.getInt("result");
-                            if (code == 38) {
-                                switch (result) {
-                                    case 0: {
-                                        Log.e(TAG,"xxxxx");
-                                        JSONArray data=obj.getJSONArray("data");
-                                        for (int i = 0; i < data.length(); i++) {
-                                            Log.e(TAG, "" + i);
-                                            JSONObject value = data.getJSONObject(i);
-                                            ResourceData resourceData = new ResourceData();
-                                            resourceData.id=value.getLong("id");
-                                            resourceData.title=value.getString("title");
-                                            resourceData.name=value.getString("name");
-                                            resourceData.detail=value.getString("detail");
-                                            mList.add(resourceData);
-                                            Log.e(TAG, "" + i);
-                                        }
-                                        myListAdapter = new MyListAdapter(getActivity(), mList);
-                                        mListView.setAdapter(myListAdapter);
-                                    }
-                                    break;
-                                    case 1: {
-                                        Toast.makeText(getActivity(), "刷新列表出了一点小问题，请您稍后再试试", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        mRefreshLayout.setRefreshing(false);
+                        json=s;
+                        doAdapter(json);
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
+                        mRelativeLayoutNetworkWrong.setVisibility(View.VISIBLE);
                     }
                 }) {
             @Override
@@ -124,18 +98,74 @@ public class TeacherDocumentFragment extends Fragment {
 
         };
         queue.add(getSubjectResourceRequest);
+    }
 
+    public void doAdapter(String json){
+        mList.clear();
+        try {
+            JSONObject obj = new JSONObject(json);
+            int code = obj.getInt("code");
+            int result = obj.getInt("result");
+            if (code == 38) {
+                switch (result) {
+                    case 0: {
+                        JSONArray data=obj.getJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject value = data.getJSONObject(i);
+                            ResourceData resourceData = new ResourceData();
+                            resourceData.id=value.getLong("id");
+                            resourceData.title=value.getString("title");
+                            resourceData.name=value.getString("name");
+                            resourceData.detail=value.getString("detail");
+                            mList.add(resourceData);
+                        }
+                        mResourceAdapter = new TeacherResourceAdapter(getActivity(), mList,mHandler);
+                        mListView.setAdapter(mResourceAdapter);
+                    }
+                    break;
+                    case 1: {
+                        mRelativeLayoutNetworkWrong.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:{
+                    downloadData();
+                }
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==2){
+            if(resultCode==2){
+                downloadData();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_resource, container, false);
+        mRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         Intent intent=getActivity().getIntent();
         subjectId=intent.getLongExtra("id",0);
-        Log.e("xxx",subjectId+"");
         queue= Volley.newRequestQueue(getActivity());
         mListView= (ListView) view.findViewById(R.id.list);
+        mRelativeLayoutNetworkWrong= (RelativeLayout) view.findViewById(R.id.networkWrongLayout);
+        mRelativeLayoutNetworkWrong.setVisibility(View.GONE);
         mRelativeLayoutFooter= (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.teacher_resource_footer, null);
         mRelativeLayoutFooter.setOnClickListener(
                 new View.OnClickListener() {
@@ -144,71 +174,26 @@ public class TeacherDocumentFragment extends Fragment {
                         Intent intent=new Intent(getActivity(),AddResourceActivity.class);
                         intent.putExtra("type",1);
                         intent.putExtra("subject",subjectId);
-                        startActivity(intent);
+                        startActivityForResult(intent,2);
+                    }
+                }
+        );
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
                     }
                 }
         );
         mListView.addFooterView(mRelativeLayoutFooter);
-        downData();
+        if(json.equals("")){
+            downloadData();
+        }else{
+            doAdapter(json);
+        }
         return view;
     }
-    class MyListAdapter extends BaseAdapter {
-
-        Context mContext;
-
-        List<ResourceData> mList;
-
-        MyListAdapter(Context context, List<ResourceData> list) {
-            this.mList = list;
-            this.mContext = context;
-        }
-
-        @Override
-        public int getCount() {
-            return mList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-                convertView = viewHolder.createView(mContext);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-            viewHolder.putData((ResourceData) getItem(position));
-            return convertView;
-        }
-
-
-        class ViewHolder {
-            TextView mTextViewTitle;
-            TextView mTextViewDescribe;
-
-            View createView(Context context) {
-                View view = LayoutInflater.from(context).inflate(R.layout.recourse_item, null);
-                this.mTextViewTitle = (TextView) view.findViewById(R.id.resourceTitle);
-                this.mTextViewDescribe = (TextView) view.findViewById(R.id.resourceDescribe);
-                return view;
-            }
-
-            void putData(ResourceData resourceData) {
-                this.mTextViewTitle.setText(resourceData.title);
-                this.mTextViewDescribe.setText(resourceData.detail);
-            }
-        }
-    }
-
 }

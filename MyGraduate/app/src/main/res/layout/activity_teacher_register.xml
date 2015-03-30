@@ -3,6 +3,8 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     tools:context="com.meizu.lizhi.mygraduation.register.TeacherRegisterActivity">
 
     <RelativeLayout

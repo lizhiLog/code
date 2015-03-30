@@ -13,7 +13,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/file"/>
+            android:background="@drawable/icon_file"/>
 
         <TextView
             android:id="@+id/path"

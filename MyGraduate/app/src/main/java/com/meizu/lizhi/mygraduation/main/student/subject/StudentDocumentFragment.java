@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.meizu.lizhi.mygraduation.R;
 import com.meizu.lizhi.mygraduation.data.ResourceData;
 import com.meizu.lizhi.mygraduation.internet.StaticIp;
+import com.meizu.lizhi.mygraduation.main.teacher.subject.TeacherResourceAdapter;
 import com.meizu.lizhi.mygraduation.operation.DownloadThread;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,21 +56,23 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
 
     RequestQueue queue;
 
-    MyListAdapter myListAdapter;
+    StudentResourceAdapter mResourceAdapter;
 
     long subjectId;
 
     String json = "";
 
+    SwipeRefreshLayout mRefreshLayout;
+
     final String actionUrl = "http://" + StaticIp.IP + ":8080/graduationServlet/getSubjectResource";
 
     public void downloadData() {
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), null, "加载中...");
+        mRefreshLayout.setRefreshing(true);
         StringRequest getSubjectResourceRequest = new StringRequest(Request.Method.POST, actionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        progressDialog.dismiss();
+                        mRefreshLayout.setRefreshing(false);
                         json = s;
                         doAdapter(json);
                     }
@@ -76,7 +80,7 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        progressDialog.dismiss();
+                        mRefreshLayout.setRefreshing(false);
                         Toast.makeText(getActivity(), "网络链接出了点小问题，请您检查检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -121,8 +125,8 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
                             mList.add(resourceData);
                             Log.e(TAG, "" + i);
                         }
-                        myListAdapter = new MyListAdapter(getActivity(), mList);
-                        mListView.setAdapter(myListAdapter);
+                        mResourceAdapter = new StudentResourceAdapter(getActivity(), mList);
+                        mListView.setAdapter(mResourceAdapter);
                     }
                     break;
                     case 1: {
@@ -152,6 +156,7 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resource, container, false);
+        mRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         queue = Volley.newRequestQueue(getActivity());
         Intent intent = getActivity().getIntent();
         subjectId = intent.getLongExtra("id", 0);
@@ -162,6 +167,16 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
             doAdapter(json);
         }
         mListView.setOnItemClickListener(this);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_green_dark);
+        mRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        downloadData();
+                    }
+                }
+        );
         return view;
     }
 
@@ -216,17 +231,20 @@ public class StudentDocumentFragment extends Fragment implements AdapterView.OnI
         class ViewHolder {
             TextView mTextViewTitle;
             TextView mTextViewDescribe;
+            ImageView mImageViewHandle;
 
             View createView(Context context) {
                 View view = LayoutInflater.from(context).inflate(R.layout.recourse_item, null);
                 this.mTextViewTitle = (TextView) view.findViewById(R.id.resourceTitle);
                 this.mTextViewDescribe = (TextView) view.findViewById(R.id.resourceDescribe);
+                this.mImageViewHandle= (ImageView) view.findViewById(R.id.handleImage);
                 return view;
             }
 
             void putData(ResourceData resourceData) {
                 this.mTextViewTitle.setText(resourceData.title);
                 this.mTextViewDescribe.setText(resourceData.detail);
+                this.mImageViewHandle.setBackgroundResource(R.drawable.icon_download);
             }
         }
     }

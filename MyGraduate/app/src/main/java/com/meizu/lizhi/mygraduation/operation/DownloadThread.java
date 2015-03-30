@@ -47,7 +47,7 @@ public class DownloadThread extends Thread {
                 FileOutputStream outputStream=new FileOutputStream(file);
                 InputStream inputStream=httpResponse.getEntity().getContent();
                 byte b[]=new byte[1024];
-                int j=0;
+                int j;
                 while ((j = inputStream.read(b)) != -1) {
                     outputStream.write(b, 0, j);
                 }
