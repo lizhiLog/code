@@ -1,0 +1,132 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tab_text_1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="文档"
+                android:paddingRight="15dp"
+                android:paddingLeft="12dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                />
+
+            <ImageView
+                android:id="@+id/scroll_1"
+                android:layout_width="wrap_content"
+                android:layout_height="3dip"
+                android:background="@drawable/view_pager_scroll"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tab_text_1"
+                android:layout_alignRight="@id/tab_text_1"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tab_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="视频"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                />
+
+            <ImageView
+                android:id="@+id/scroll_2"
+                android:layout_width="wrap_content"
+                android:layout_height="3dip"
+                android:background="@drawable/view_pager_scroll"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tab_text_2"
+                android:layout_alignRight="@id/tab_text_2"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tab_text_3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="课件"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                />
+
+            <ImageView
+                android:id="@+id/scroll_3"
+                android:layout_width="wrap_content"
+                android:layout_height="3dip"
+                android:background="@drawable/view_pager_scroll"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tab_text_3"
+                android:layout_alignRight="@id/tab_text_3"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tab_text_4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="图表"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                />
+
+            <ImageView
+                android:id="@+id/scroll_4"
+                android:layout_width="wrap_content"
+                android:layout_height="3dip"
+                android:background="@drawable/view_pager_scroll"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tab_text_4"
+                android:layout_alignRight="@id/tab_text_4"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_alignParentBottom="true"
+        android:src="#2db5e5"/>
+
+</RelativeLayout>
+<!-- From: file:/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/custom_tab_view.xml -->

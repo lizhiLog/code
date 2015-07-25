@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ffdb77c85cb17e47b73b5283a57eec6630ef9225.jar"
+        jar="/home/lizhi/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35"/>
+    <item
+        dex="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/pre-dexed/debug/classes-2b3484cc86e64c4e3bc8f394906931e0fe213aa1.jar"
+        jar="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8"/>
+    <item
+        dex="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-691064813b2c8d3553c03ec55dc29a4fb2a51798.jar"
+        jar="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03"/>
+
+</pre-dex-items>

@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:id="@+id/subjectItemLayout"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/postImage"
+            android:background="@drawable/ic_test"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/postAuthor"
+            android:text="李志"
+            android:layout_toRightOf="@id/postImage"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"
+            android:textColor="#5C5C5C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:text="2015-02-03 14:30"
+            android:layout_below="@id/postAuthor"
+            android:layout_alignLeft="@id/postAuthor"
+            android:layout_marginTop="3dp"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/content"
+            android:text="华中师范大学计算机学院"
+            android:layout_below="@id/date"
+            android:layout_alignLeft="@id/imagePhoto"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/comment"
+            android:background="@drawable/comment"
+            android:layout_below="@id/content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/commentNum"
+            android:text="(20)"
+            android:layout_below="@id/content"
+            android:layout_toLeftOf="@id/comment"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_alignBottom="@id/comment"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</RelativeLayout><!-- From: file:/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/post_item.xml -->

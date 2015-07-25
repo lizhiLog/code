@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="21.0.3" >
+        <source path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/res" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res" >
+            <file
+                name="ic_launcher"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
+                qualifiers="xxhdpi-v4"
+                type="drawable" />
+            <file
+                name="ic_test"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-mdpi/ic_test.png"
+                qualifiers="mdpi-v4"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-mdpi/ic_launcher.png"
+                qualifiers="mdpi-v4"
+                type="drawable" />
+            <file
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/values/dimens.xml"
+                qualifiers="" >
+                <dimen name="loginTipTextSize" >19sp
+                </dimen>
+                <dimen name="LRBtnPadding" >10dp
+                </dimen>
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+                <dimen name="LRNormalMargin" >15dp
+                </dimen>
+                <dimen name="activity_vertical_margin" >16dp
+                </dimen>
+                <dimen name="LREditWidth" >220dp
+                </dimen>
+                <dimen name="LREditTextPadding" >10dp
+                </dimen>
+            </file>
+            <file
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/values/styles.xml"
+                qualifiers="" >
+
+                <style
+                    name="CustomActionBarStyle"
+                    parent="@android:style/Widget.DeviceDefault.Light.ActionBar" >
+                    <item name="android:background">
+@drawable/mz_titlebar_background
+                    </item>
+                    <item name="android:backgroundSplit">
+@drawable/mz_smartbar_background
+                    </item>
+                </style>
+
+                <style
+                    name="CustomTheme"
+                    parent="@android:style/Theme.DeviceDefault.Light" >
+                    <item name="android:actionBarStyle">
+@style/CustomActionBarStyle
+                    </item>
+                    <item name="android:actionOverflowButtonStyle">
+@style/CustomActionButtonOverflowStyle
+                    </item>
+                    <item name="android:actionButtonStyle">
+@style/CustomActionButtonStyle
+                    </item>
+                </style>
+
+                <style
+                    name="CustomActionButtonOverflowStyle"
+                    parent="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow" >
+                    <item name="android:src">
+@drawable/mz_ic_sb_more
+                    </item>
+                </style>
+
+                <style
+                    name="CustomActionButtonStyle"
+                    parent="@android:style/Widget.DeviceDefault.Light.ActionButton" >
+                    <item name="android:src">
+@drawable/mz_ic_sb_back
+                    </item>
+                </style>
+
+                <style
+                    name="AppTheme"
+                    parent="android:Theme.Holo.Light.DarkActionBar" >
+                </style>
+            </file>
+            <file
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/values/strings.xml"
+                qualifiers="" >
+                <string name="title_activity_write_post" >WritePostActivity
+                </string>
+                <string name="action_settings" >Settings
+                </string>
+                <string name="title_activity_student_register" >学生注册
+                </string>
+                <string name="title_activity_subject_detail" >SubjectDetailActivity
+                </string>
+                <string name="title_activity_subject" >SubjectActivity
+                </string>
+                <string name="hello_blank_fragment" >Hello blank fragment
+                </string>
+                <string name="title_activity_student_main" >学生主界面
+                </string>
+
+                <string-array name="academy" >
+                    <item>
+计算机学院
+                    </item>
+                    <item>
+化学学院
+                    </item>
+                    <item>
+文学院
+                    </item>
+                    <item>
+外国语学院
+                    </item>
+                    <item>
+物理学院
+                    </item>
+                    <item>
+生命与科学学院
+                    </item>
+                    <item>
+马克思主义学院
+                    </item>
+                </string-array>
+                <string-array name="userType" >
+                    <item>
+学生
+                    </item>
+                    <item>
+老师
+                    </item>
+                </string-array>
+
+                <string name="title_activity_comment" >CommentActivity
+                </string>
+
+                <string-array name="school" >
+                    <item>
+华中科技大学
+                    </item>
+                    <item>
+武汉大学
+                    </item>
+                    <item>
+华中师范大学
+                    </item>
+                    <item>
+武汉理工大学
+                    </item>
+                </string-array>
+
+                <string name="title_activity_teacher_register" >教师注册
+                </string>
+                <string name="app_name" >资源天堂
+                </string>
+                <string name="title_activity_login" >登录
+                </string>
+                <string name="hello_world" >Hello world!
+                </string>
+            </file>
+            <file
+                name="subject"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/menu/subject.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="student_main"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/menu/student_main.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="subject_detail"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/menu/subject_detail.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="ic_launcher"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-hdpi/ic_launcher.png"
+                qualifiers="hdpi-v4"
+                type="drawable" />
+            <file
+                name="login_btn_back"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable/login_btn_back.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="account_layout_back"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable/account_layout_back.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="login_btn_back_pressed"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable/login_btn_back_pressed.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="login_edit_back"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable/login_edit_back.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="login_btn_back_normal"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable/login_btn_back_normal.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/values-w820dp/dimens.xml"
+                qualifiers="w820dp-v13" >
+                <dimen name="activity_horizontal_margin" >64dp
+                </dimen>
+            </file>
+            <file
+                name="icon_account_normal"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_account_normal.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_subject_normal"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_subject_normal.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_download"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_download.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="mz_ic_sb_more"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/mz_ic_sb_more.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="view_pager_scroll"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/view_pager_scroll.9.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_account_checked"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_account_checked.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_home_normal"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_home_normal.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="enter_arrow"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/enter_arrow.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="mz_ic_sb_back"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/mz_ic_sb_back.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_home_checked"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_home_checked.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="login"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/login.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/ic_launcher.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="icon_subject_checked"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/icon_subject_checked.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="comment"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/comment.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="mz_titlebar_background"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/mz_titlebar_background.9.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="mz_smartbar_background"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/mz_smartbar_background.9.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="fragment_subject"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/fragment_subject.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_home"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/fragment_home.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subject_item"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/subject_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_subject_detail"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_subject_detail.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="post_item"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/post_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="custom_tab_view"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/custom_tab_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_account"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/fragment_account.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_login"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_login.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_resource"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/fragment_resource.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_student_main"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_student_main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_subject"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_subject.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="recourse_item"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/recourse_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_teacher_register"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_teacher_register.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_student_register"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_student_register.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subject_detail_header"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/subject_detail_header.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="post_comment_item"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/post_comment_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="comment_detail_header"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/comment_detail_header.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="comment"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/menu/comment.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="activity_comment"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_comment.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subject_comment_item"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/subject_comment_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="home_custom_title_view"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/home_custom_title_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="write_post"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/drawable-xhdpi/write_post.png"
+                qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="account_custom_title_view"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/account_custom_title_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subject_custom_title_view"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/subject_custom_title_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="write_post_custom_title_view"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/write_post_custom_title_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="write_post"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/menu/write_post.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="activity_write_post"
+                path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/main/res/layout/activity_write_post.xml"
+                qualifiers=""
+                type="layout" />
+        </source>
+        <source path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/generated/res/rs/debug" />
+        <source path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/build/generated/res/generated/debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/home/lizhi/AndroidStudioProjects/MyGrduate/app/src/debug/res" />
+    </dataSet>
+
+</merger>
